@@ -1,0 +1,23 @@
+#leaflert-container {
+  height: 94vh;
+  width: 100vw;
+  margin-bottom: 6vh;
+  z-index: 1;
+}
+#mapButton {
+  position: absolute;
+  bottom: 8vh;
+  right: 0;
+  padding: 10px;
+  z-index: 10000;
+  background-color: transparent;
+  border: none;
+}
+
+@media screen and (min-width: 768px) {
+  #leaflert-container {
+    height: 90vh;
+    width: 100vw;
+    padding-top: 3vh;
+  }
+}

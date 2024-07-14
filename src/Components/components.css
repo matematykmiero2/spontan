@@ -1,0 +1,216 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.LoginBox {
+  width: 80vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.LoginLogo {
+  width: auto;
+  height: 30%;
+
+  margin-block: 2vh;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+}
+
+.categories {
+  display: flex;
+  justify-content: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.box {
+  padding-inline: 10vw;
+}
+.page {
+  display: flex;
+  height: 85vh;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.leaflet-container {
+  height: 100vh;
+}
+.login {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+}
+
+.eventPage {
+  margin-top: -20%;
+  height: 90vh;
+}
+
+.description {
+  width: 200px;
+}
+
+.page::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-container {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chat-group,
+.private-chat {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-group2 {
+  max-height: 90%;
+  overflow-y: auto;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+}
+.chat-title {
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: -20px;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 700px;
+  padding: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 70%;
+}
+
+.message.sent {
+  align-self: flex-end;
+  background-color: #dcf8c6;
+}
+
+.message.received {
+  align-self: flex-start;
+  background-color: #ffffff;
+}
+
+.message-sender {
+  font-weight: bold;
+}
+
+.message-text {
+  margin-top: 4px;
+}
+
+.message-timestamp {
+  font-size: 12px;
+  color: #999999;
+}
+
+.message-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #dddddd;
+  margin-bottom: 20px;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.WAbutton {
+  padding: 8px 16px;
+
+  border: none;
+  border-radius: 4px;
+  background-color: #075e54;
+  color: white;
+  cursor: pointer;
+  display: flex;
+}
+
+.message-input button:hover {
+  background-color: #128c7e;
+}
+
+.user-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+.chat-title {
+  font-weight: bold;
+  font-size: 25px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .page {
+    width: 90%;
+    padding-inline: 5%;
+    flex-direction: row;
+  }
+  .eventPage {
+    margin-top: 5%;
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .chat-container {
+    width: 30vw;
+  }
+
+  .LoginBox {
+    width: 30vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .LoginLogo {
+    width: auto;
+  }
+}
