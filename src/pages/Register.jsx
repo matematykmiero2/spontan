@@ -103,7 +103,11 @@ const Register = () => {
             >
               Create account
             </Button>
-            <Button fullWidth sx={{ mt: 3, mb: 2 }}>
+            <Button
+              onClick={() => navigate("/login")}
+              fullWidth
+              sx={{ mt: 3, mb: 2 }}
+            >
               Sign in
             </Button>
           </Box>

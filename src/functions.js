@@ -89,3 +89,35 @@ export async function getEvent(event_id) {
   data = data[0];
   return data;
 }
+
+export async function getUserEvents() {
+  let { data, error } = await supabase.rpc("get_user_events_details", {
+    user_id: localStorage.getItem("authToken"),
+  });
+  if (error) console.error(error);
+  data = parseDate(data);
+  console.log(data);
+  return data;
+}
+function hasEventById(userEvents, eventId) {
+  return userEvents.some((event) => event.id === eventId);
+}
+export async function setUserEvent(event_id) {
+  const userEvents = await getUserEvents();
+  if (hasEventById(userEvents, event_id)) return;
+  let { data, error } = await supabase.rpc("insert_user_event", {
+    event_id: event_id,
+    user_id: localStorage.getItem("authToken"),
+  });
+  if (error) console.error(error);
+  else console.log(data);
+}
+
+export async function deleteUserEvent(event_id) {
+  let { data, error } = await supabase.rpc("delete_user_event", {
+    event_id_param: event_id,
+    user_id_param: localStorage.getItem("authToken"),
+  });
+  if (error) console.error(error);
+  else console.log(data);
+}

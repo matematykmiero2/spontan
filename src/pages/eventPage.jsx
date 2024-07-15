@@ -20,7 +20,7 @@ const EventPage = () => {
     <>
       <div>
         {event !== null ? (
-          <div className="page eventPage">
+          <div className="page">
             <Card
               location={`${event.city} ${event.street} ${event.number} ${event.apartment}`}
               name={event.name}

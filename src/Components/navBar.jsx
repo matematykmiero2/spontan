@@ -34,7 +34,7 @@ const NavBar = ({ id }) => {
         setValue(4);
         break;
       default:
-        setValue(2);
+        setValue(null);
     }
   }, [location.pathname]);
   return (
@@ -69,7 +69,7 @@ const NavBar = ({ id }) => {
             <BottomNavigationAction
               label="Signed"
               icon={<EventIcon />}
-              onClick={() => navigate("/signed")}
+              onClick={() => navigate(unLogged ? "/signed" : "/login")}
             />
             <BottomNavigationAction
               label="Profile"
@@ -102,7 +102,7 @@ const NavBar = ({ id }) => {
             <BottomNavigationAction
               label="Signed"
               icon={<EventIcon />}
-              onClick={() => navigate("/signed")}
+              onClick={() => navigate(unLogged ? "/signed" : "/login")}
             />
             <BottomNavigationAction
               label="Profile"
