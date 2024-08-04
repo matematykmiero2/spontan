@@ -42,7 +42,7 @@ const NavBar = ({ id }) => {
       {isMobile ? (
         <Paper
           sx={{
-            position: "absolute",
+            position: "fixed",
             zIndex: 1000,
             bottom: 0,
             left: 0,

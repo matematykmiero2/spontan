@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import ShareIcon from "@mui/icons-material/Share";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { Chip } from "@mui/material";
+import { setUserEvent, deleteUserEvent } from "../functions";
 import "./components.css";
 const RecipeReviewCard = ({
   duration,
@@ -22,6 +23,7 @@ const RecipeReviewCard = ({
   description,
   photo,
   categories,
+  id,
 }) => {
   return (
     <div style={{ padding: "10px" }}>
@@ -62,8 +64,11 @@ const RecipeReviewCard = ({
             Duration: {duration} h
           </Typography>
         </CardContent>
-        <CardActions>
-          <IconButton aria-label="add to favorites">
+        <CardActions sx={{ marginTop: "auto" }}>
+          <IconButton
+            aria-label="add to favorites"
+            onClick={() => setUserEvent(id)}
+          >
             <EventAvailableIcon />
           </IconButton>
           <IconButton aria-label="share">

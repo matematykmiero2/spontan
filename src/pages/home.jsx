@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../Components/components.css";
 import EventList from "../Components/list";
-import { getAllEvents } from "../functions";
+import { getAllEvents, getUserID, getCoordinates } from "../functions";
 import SearchBar from "../Components/searchBar";
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -13,10 +13,14 @@ const Home = () => {
     fetchAndParseEvents();
   }, []);
   return (
-    <div className="page">
-      <SearchBar />
-      <EventList events={events} />
-    </div>
+    <>
+      <div>
+        <SearchBar />
+        <div className="page">
+          <EventList events={events} />
+        </div>
+      </div>
+    </>
   );
 };
 

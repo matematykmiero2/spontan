@@ -11,7 +11,7 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import Chip from "@mui/material/Chip";
 import "./components.css";
 import { useNavigate } from "react-router-dom";
-import { setUserEvent, deleteUserEvent } from "../functions";
+
 const RecipeReviewCard = ({
   location,
   name,
@@ -20,7 +20,6 @@ const RecipeReviewCard = ({
   photo,
   categories,
   id,
-  type,
 }) => {
   const navigate = useNavigate();
   return (
@@ -28,7 +27,7 @@ const RecipeReviewCard = ({
       <Card
         sx={{
           width: 345,
-          height: 650,
+          height: "auto",
           display: "flex",
           flexDirection: "column",
         }}
@@ -52,17 +51,6 @@ const RecipeReviewCard = ({
             </Typography>
           </CardContent>
         </div>
-        <CardActions sx={{ marginTop: "auto" }}>
-          <IconButton
-            aria-label="add to favorites"
-            onClick={() => (type ? deleteUserEvent(id) : setUserEvent(id))}
-          >
-            <EventAvailableIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
       </Card>
     </div>
   );

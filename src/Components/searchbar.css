@@ -1,12 +1,8 @@
 .fixed-search-bar {
-  padding-top: 1vh;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  top: 10px;
+  padding-bottom: 30px;
   height: 50px;
   z-index: 100;
-  column-gap: 10px;
   width: 96%;
   margin-left: 2%;
   margin-right: 2%;
@@ -32,5 +28,6 @@ input {
 @media screen and (min-width: 768px) {
   .fixed-search-bar {
     width: 100%;
+    margin-top: 2%;
   }
 }

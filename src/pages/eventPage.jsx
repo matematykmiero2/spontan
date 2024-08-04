@@ -33,6 +33,7 @@ const EventPage = () => {
               price={event.price}
               duration={event.duration}
               categories={event.categories}
+              id={id}
             />
             <Chat></Chat>
           </div>

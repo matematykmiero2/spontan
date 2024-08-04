@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { registration } from "../functions";
+import { signUp } from "../functions";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,27 +15,16 @@ const Register = () => {
   const navigate = useNavigate();
 
   const register = async () => {
-    const register = await registration(
-      email,
-      password,
-      name,
-      surname,
-      nickname
-    );
-    if (register) {
-      navigate("/");
-    } else {
-      console.error("Register failed");
-    }
+    const register = await signUp(email, password, name, surname, nickname);
   };
   return (
     <>
       <div className="login">
         <img src={fullLogo} alt="Logo" className="LoginLogo" />
         <div className="box">
-          <Box noValidate sx={{ mt: 1 }}>
+          <Box noValidate sx={{ mt: 0 }}>
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               id="email"
@@ -47,7 +36,7 @@ const Register = () => {
               }}
             />
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               id="name"
@@ -59,7 +48,7 @@ const Register = () => {
               }}
             />
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               id="lastname"
@@ -71,7 +60,7 @@ const Register = () => {
               }}
             />
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               id="nickname"
@@ -83,7 +72,7 @@ const Register = () => {
               }}
             />
             <TextField
-              margin="normal"
+              margin="dense"
               required
               fullWidth
               name="password"
@@ -99,14 +88,14 @@ const Register = () => {
               onClick={register}
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 1, mb: 0 }}
             >
               Create account
             </Button>
             <Button
               onClick={() => navigate("/login")}
               fullWidth
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 1, mb: 3 }}
             >
               Sign in
             </Button>

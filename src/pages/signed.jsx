@@ -13,7 +13,7 @@ const Signed = () => {
   }, []);
   return (
     <>
-      <div className="page">
+      <div className="page" style={{ marginTop: "10px" }}>
         <EventList events={events} type={"signed"} />
       </div>
     </>

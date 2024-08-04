@@ -25,49 +25,47 @@ const Login = () => {
       <div className="login">
         <img src={fullLogo} alt="Logo" className="LoginLogo" />
         <div className="box">
-          <Box noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
-            />
-            <Button
-              onClick={login}
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign in
-            </Button>
-            <Button
-              onClick={() => navigate("/register")}
-              fullWidth
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Create account
-            </Button>
-          </Box>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
+          />
+          <Button
+            onClick={login}
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign in
+          </Button>
+          <Button
+            onClick={() => navigate("/register")}
+            fullWidth
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Create account
+          </Button>
         </div>
       </div>
     </>

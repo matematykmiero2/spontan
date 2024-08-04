@@ -1,13 +1,14 @@
-#leaflert-container {
-  height: 94vh;
+.leaflert-container {
+  position: fixed;
+  height: 90vh;
   width: 100vw;
-  margin-bottom: 6vh;
-  z-index: 1;
+  top: 0;
+  left: 0;
 }
 #mapButton {
   position: absolute;
-  bottom: 8vh;
-  right: 0;
+  bottom: 6vh;
+  right: 1vh;
   padding: 10px;
   z-index: 10000;
   background-color: transparent;
@@ -15,9 +16,19 @@
 }
 
 @media screen and (min-width: 768px) {
-  #leaflert-container {
-    height: 90vh;
-    width: 100vw;
-    padding-top: 3vh;
+  .leaflert-container {
+    height: 80vh;
+    width: 98vw;
+    margin-top: 5vh;
+    margin-bottom: 10vh;
+  }
+  #mapButton {
+    position: absolute;
+    bottom: 5%;
+    right: 2%;
+    padding: 10px;
+    z-index: 10000;
+    background-color: transparent;
+    border: none;
   }
 }
