@@ -1,8 +1,138 @@
 import { createClient } from "@supabase/supabase-js";
-const supabase = createClient(
+export const supabase = createClient(
   process.env.REACT_APP_PROJECT_URL,
   process.env.REACT_APP_API_KEY
 );
+
+export async function getUserLocations() {
+  const id = getUserID();
+
+  let { data, error } = await supabase.rpc("get_user_locations", {
+    p_user_id: id,
+  });
+  if (error) console.error(error);
+  else return data;
+}
+
+export async function getAllCategories() {
+  let { data, error } = await supabase.rpc("get_all_categories");
+  if (error) console.error(error);
+  else {
+    console.log(data);
+    return data;
+  }
+}
+
+export async function addEvent(newEvent, locations, categories) {
+  const id = getUserID();
+  newEvent.location = locations[newEvent.location_id].location_id;
+  console.log(newEvent);
+  const date = new Date(newEvent.start_time).toLocaleDateString();
+  const time = new Date(newEvent.start_time).toLocaleTimeString();
+  console.log(date, time);
+
+  let { data, error } = await supabase.rpc("add_event", {
+    p_date: newEvent.start_time,
+    p_description: newEvent.description,
+    p_duration: newEvent.duration,
+    p_location_id: newEvent.location,
+    p_long_description: "ccc",
+    p_max_participants: newEvent.max_participants
+      ? newEvent.max_participants
+      : 0,
+    p_name: newEvent.name,
+    p_organizer_id: id,
+    p_participants: 0,
+    p_photo: newEvent.photo,
+    p_price: newEvent.price,
+    p_public: newEvent.public,
+    p_start_time: time,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+  const newEventId = data;
+
+  let { data2, error2 } = await supabase.rpc("set_event_categories", {
+    category_ids: categories,
+    event_id: newEventId,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+  return newEventId;
+}
+export async function addLocation(location) {
+  location = Object.fromEntries(
+    Object.entries(location).filter(
+      ([key, value]) => value !== "" && value !== null && value !== undefined
+    )
+  );
+  console.log(location);
+
+  const cords = await getCoordinates(JSON.stringify(location));
+
+  let { data, error } = await supabase.rpc("add_location", {
+    p_apartment: location.apartment,
+    p_city: location.city,
+    p_latitude: String(cords.lat),
+    p_longitude: String(cords.lng),
+    p_number: location.number,
+    p_street: location.street,
+  });
+
+  const id = getUserID();
+  console.log(data);
+  let { data2, error2 } = await supabase.rpc("add_user_location", {
+    p_location_id: data,
+    p_user_id: id,
+  });
+  if (error) console.error(error2);
+  else console.log(data2);
+}
+export async function uploadPhoto(photo) {
+  console.log(photo.name);
+  const { data, error } = await supabase.storage
+    .from("avatars")
+    .upload(`userphotos/${photo.name}`, photo);
+  if (error) console.error(error);
+  else console.log(data);
+}
+
+export async function getTasks(eventId) {
+  let { data, error } = await supabase.rpc("get_tasks_for_event", {
+    p_event_id: eventId,
+  });
+  if (error) console.error(error);
+  else return data;
+}
+export async function addTask(eventId, newTask) {
+  const id = getUserID();
+  let { data, error } = await supabase.rpc("add_task", {
+    p_description: newTask.description,
+    p_event: eventId,
+    p_reporter: id,
+    p_summary: newTask.summary,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+}
+export async function changeTaskStatus(taskId, newStatus) {
+  let { data, error } = await supabase.rpc("update_task_status", {
+    p_status: newStatus,
+    p_task_id: taskId,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+}
+
+export async function assignToTask(eventId) {
+  const id = getUserID();
+  let { data, error } = await supabase.rpc("assign_task", {
+    p_assignee: id,
+    p_task_id: eventId,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+}
 
 export async function logIn(email, password) {
   console.log(email, password);
@@ -18,6 +148,22 @@ export async function logIn(email, password) {
     return false;
   } else {
     return true;
+  }
+}
+
+export async function sendMessage(event_id, body) {
+  const id = getUserID();
+  if (id) {
+    let { data, error } = await supabase.rpc("add_message", {
+      p_event_id: event_id,
+      p_message: body,
+      p_sender: id,
+    });
+    if (error) return 400;
+    else {
+      console.log(data);
+      return 200;
+    }
   }
 }
 
@@ -159,6 +305,17 @@ export async function sendFriendInvitation(req_id) {
     });
     if (error) console.error(error);
     else console.log(data);
+  }
+  return "Error";
+}
+
+export async function getMessagesForEvent(eventId) {
+  const id = getUserID();
+  if (id) {
+    let { data, error } = await supabase.rpc("get_messages_for_event", {
+      p_event_id: eventId,
+    });
+    return data;
   }
   return "Error";
 }

@@ -10,6 +10,7 @@ import Explore from "./pages/explore/explore";
 import Friends from "./pages/friends";
 import EventPage from "./pages/eventPage";
 import AddFriend from "./pages/addFriend";
+import Create from "./pages/create";
 function App() {
   return (
     <HashRouter>
@@ -23,6 +24,7 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/addFriend" element={<AddFriend />} />
+        <Route path="/create" element={<Create />} />
         <Route path="/event/:id" element={<EventPage />} />
       </Routes>
     </HashRouter>

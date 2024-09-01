@@ -50,10 +50,7 @@ const RecipeReviewCard = ({
 
         <CardContent>
           <Typography gutterBottom variant="h7" component="div">
-            Organizer: {first_name} {last_name}
-          </Typography>
-          <Typography gutterBottom variant="h7" component="div">
-            Nickname: <strong>{nickname}</strong>
+            Organizer: {nickname}
           </Typography>
         </CardContent>
         <CardContent>
