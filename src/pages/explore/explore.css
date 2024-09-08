@@ -21,14 +21,9 @@
     width: 98vw;
     margin-top: 5vh;
     margin-bottom: 10vh;
+    padding-left: 1vw;
   }
   #mapButton {
-    position: absolute;
-    bottom: 5%;
-    right: 2%;
-    padding: 10px;
-    z-index: 10000;
-    background-color: transparent;
-    border: none;
+    bottom: -2vh;
   }
 }

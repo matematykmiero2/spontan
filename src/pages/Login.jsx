@@ -14,7 +14,7 @@ const Login = () => {
   const login = async () => {
     const logged = await logIn(email, password);
     if (logged) {
-      navigate("/");
+      window.location.reload();
     } else {
       console.error("Login failed");
     }

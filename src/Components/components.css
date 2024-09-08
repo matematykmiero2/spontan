@@ -27,7 +27,8 @@ html {
   display: flex;
   justify-content: row;
   flex-wrap: wrap;
-  gap: 20px;
+  row-gap: 10px;
+  column-gap: 10px;
 }
 .box {
   padding-inline: 10vw;
@@ -195,8 +196,6 @@ html {
     margin-inline: 5%;
   }
   .page {
-    height: 100%;
-    width: 100%;
   }
   .eventPage {
     display: flex;
@@ -209,7 +208,7 @@ html {
 
   .chat-container {
     width: 30vw;
-    height: 30vh;
+    height: 80vh;
     margin-top: 10px;
   }
 

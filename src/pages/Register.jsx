@@ -12,10 +12,25 @@ const Register = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [nickname, setNickname] = useState("");
+  const [emailError, setEmailError] = useState(false);
   const navigate = useNavigate();
 
+  const validateEmail = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(value);
+  };
+
+  const handleEmailChange = (event) => {
+    const value = event.target.value;
+    setEmail(value);
+    setEmailError(!validateEmail(value));
+  };
   const register = async () => {
-    const register = await signUp(email, password, name, surname, nickname);
+    if (!emailError && email && password && name && surname && nickname) {
+      await signUp(email, password, name, surname, nickname);
+    } else {
+      alert("Fullfill all fields");
+    }
   };
   return (
     <>
@@ -31,9 +46,11 @@ const Register = () => {
               label="Email Address"
               name="email"
               autoComplete="email"
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
+              onChange={handleEmailChange}
+              error={emailError}
+              helperText={
+                emailError ? "Please enter a valid email address" : ""
+              }
             />
             <TextField
               margin="dense"

@@ -5,7 +5,7 @@ import Card from "../Components/eventPageTile";
 import Chat from "../Components/chat";
 import "../Components/components.css";
 import EventTabs from "../Components/eventTabs";
-
+import "./event.css";
 const EventPage = () => {
   let { id } = useParams();
 
@@ -20,7 +20,7 @@ const EventPage = () => {
 
   return (
     <>
-      <div style={{ position: "absolute", top: 0, left: 0, width: "100%" }}>
+      <div className="eventPage">
         <EventTabs id={id} event={event} />
       </div>
     </>

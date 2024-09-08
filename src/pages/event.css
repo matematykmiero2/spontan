@@ -1,0 +1,12 @@
+.eventPage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 5%;
+  width: 100%;
+}
+@media screen and (min-width: 768px) {
+  .eventPage {
+    justify-content: center;
+  }
+}

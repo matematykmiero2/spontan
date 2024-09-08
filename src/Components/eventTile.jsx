@@ -20,6 +20,7 @@ const RecipeReviewCard = ({
   photo,
   categories,
   id,
+  ispublic,
 }) => {
   const navigate = useNavigate();
   return (
@@ -32,12 +33,15 @@ const RecipeReviewCard = ({
           flexDirection: "column",
         }}
       >
-        <div key={id} onClick={() => navigate(`/event/${id}`)}>
+        <div
+          key={id}
+          onClick={() => navigate(ispublic ? `/event/${id}` : `/private/${id}`)}
+        >
           <CardHeader title={name} subheader={date} />
           <CardMedia component="img" height="194" image={photo} alt="alt" />
           <CardContent>
             <div className="categories">
-              {categories.map((category) => (
+              {categories?.map((category) => (
                 <Chip key={category} label={category} variant="outlined" />
               ))}
             </div>

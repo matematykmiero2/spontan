@@ -6,7 +6,6 @@ import FriendsTab from "../Components/friendTabs";
 
 const Friends = () => {
   const navigate = useNavigate();
-  
 
   return (
     <>
@@ -16,32 +15,9 @@ const Friends = () => {
             <Button onClick={() => navigate("/addFriend")} variant="contained">
               Add friend
             </Button>
-            <FriendsTab />
-            {/*<div>Znajomi</div>
-            <FixedSizeList
-              height={200}
-              width={360}
-              itemSize={46}
-              itemCount={friends && friends.length}
-              overscanCount={5}
-            >
-              {renderFriend}
-            </FixedSizeList>
-
-            {invitations !== undefined && (
-              <>
-                <div>Zaproszenia</div>
-                <FixedSizeList
-                  height={200}
-                  width={360}
-                  itemSize={46}
-                  itemCount={invitations.length}
-                  overscanCount={5}
-                >
-                  {renderInvitation}
-                </FixedSizeList>
-              </>
-            )}*/}
+            <div>
+              <FriendsTab />
+            </div>
           </Stack>
         </div>
       </div>

@@ -5,7 +5,7 @@ import "./components.css";
 const EventList = ({ events, type }) => {
   return (
     <div className="list" style={{ paddingBottom: "100px" }}>
-      {events.map((event) => (
+      {events?.map((event) => (
         <Card
           location={`${event.city} ${event.street} ${event.number} ${event.apartment}`}
           name={event.name}
@@ -15,6 +15,7 @@ const EventList = ({ events, type }) => {
           categories={event.categories}
           id={event.id}
           type={type}
+          ispublic={event.public}
         />
       ))}
     </div>
