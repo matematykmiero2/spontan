@@ -4,14 +4,15 @@ import fullLogo from "../resources/fullLogo.svg";
 import Box from "@mui/material/Box";
 import {
   TextField,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   Typography,
-  Stack,
+  Button,
+  Switch,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Multiselect from "../Components/multiselect";
 import {
@@ -24,7 +25,6 @@ import {
   changeLanguage,
 } from "../functions";
 
-import Switch from "@mui/material/Switch";
 const Register = () => {
   const { t, i18n } = useTranslation();
   const [categories, setCategories] = useState([]);
@@ -32,28 +32,32 @@ const Register = () => {
   const [settings, setSettings] = useState();
   const [language, setLanguage] = useState("en");
   const [nickname, setNickname] = useState("");
+  const navigate = useNavigate();
+
   const handleLanguageChange = async (event) => {
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
     await changeLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
-
-    localStorage.setItem("lng", language);
+    localStorage.setItem("lng", newLanguage);
   };
+
   const handleNickname = async () => {
     if (nickname.length > 2) {
       await updateNickname(nickname);
     }
   };
+
   const handleNotification = async () => {
     const newValue = !settings.notifications;
     settings.notifications = newValue;
     await updateNotifications(newValue);
   };
+
   const handleCategories = async () => {
     await updateUserCategories(selectedCategories);
   };
-  const navigate = useNavigate();
+
   useEffect(() => {
     async function fetchLocations() {
       const categories = await getAllCategories();
@@ -68,37 +72,76 @@ const Register = () => {
     }
     fetchLocations();
   }, []);
+
   return (
     <>
       {settings && (
         <div style={{ justifyContent: "center" }}>
           <div className="box">
             <Box noValidate sx={{ mt: 4 }}>
-              <Typography>{t("Change Language")}:</Typography>
-              <RadioGroup
-                aria-label="language"
-                name="language"
-                value={language}
-                onChange={handleLanguageChange}
-                row
-              >
-                <FormControlLabel
-                  value="en"
-                  control={<Radio />}
-                  label="English"
-                />
-                <FormControlLabel
-                  value="pl"
-                  control={<Radio />}
-                  label="Polski"
-                />
-                <FormControlLabel
-                  value="de"
-                  control={<Radio />}
-                  label="Deutsch"
-                />
-              </RadioGroup>
+              <FormControl fullWidth>
+                <InputLabel>{t("Change Language")}</InputLabel>
+                <Select value={language} onChange={handleLanguageChange}>
+                  <MenuItem value="en">
+                    <img
+                      src="https://flagicons.lipis.dev/flags/4x3/sh.svg"
+                      alt="English"
+                      style={{ width: 20, height: 15, marginRight: 8 }}
+                    />
+                    English
+                  </MenuItem>
+                  <MenuItem value="pl">
+                    <img
+                      src="https://flagicons.lipis.dev/flags/4x3/pl.svg"
+                      alt="Polski"
+                      style={{ width: 20, height: 15, marginRight: 8 }}
+                    />
+                    Polski
+                  </MenuItem>
+                  <MenuItem value="de">
+                    <img
+                      src="https://flagicons.lipis.dev/flags/4x3/de.svg"
+                      alt="Deutsch"
+                      style={{ width: 20, height: 15, marginRight: 8 }}
+                    />
+                    Deutsch
+                  </MenuItem>
+                  <MenuItem value="uk">
+                    <img
+                      src="https://flagicons.lipis.dev/flags/4x3/ua.svg"
+                      alt="українська"
+                      style={{ width: 20, height: 15, marginRight: 8 }}
+                    />
+                    українська
+                  </MenuItem>
+                  <MenuItem value="cs">
+                    <img
+                      src="https://flagicons.lipis.dev/flags/4x3/cz.svg"
+                      alt="čeština"
+                      style={{ width: 20, height: 15, marginRight: 8 }}
+                    />
+                    čeština
+                  </MenuItem>
+                  <MenuItem value="fr">
+                    <img
+                      src="https://flagicons.lipis.dev/flags/4x3/fr.svg"
+                      alt="Français"
+                      style={{ width: 20, height: 15, marginRight: 8 }}
+                    />
+                    Français
+                  </MenuItem>
+                  <MenuItem value="es">
+                    <img
+                      src="https://flagicons.lipis.dev/flags/4x3/es.svg"
+                      alt="Español"
+                      style={{ width: 20, height: 15, marginRight: 8 }}
+                    />
+                    Español
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </Box>
+
             <Box noValidate sx={{ mt: 2 }}>
               <TextField
                 margin="dense"
@@ -125,16 +168,13 @@ const Register = () => {
               <Switch
                 defaultChecked={settings.notifications}
                 onChange={handleNotification}
-              >
-                {t("Change password")}
-              </Switch>
+              />
             </Box>
             <Box noValidate sx={{ mt: 2 }}>
               <Button
                 variant="contained"
                 onClick={async () => await updateInvitationLink()}
               >
-                {" "}
                 {t("Change invitation link")}
               </Button>
             </Box>
@@ -145,8 +185,7 @@ const Register = () => {
                 selectCategory={setSelectedCategories}
               />
               <Button variant="contained" onClick={handleCategories}>
-                {" "}
-                {t("Change prefered categories")}
+                {t("Change preferred categories")}
               </Button>
             </Box>
           </div>
