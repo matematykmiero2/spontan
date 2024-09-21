@@ -8,7 +8,9 @@ import AddIcon from "@mui/icons-material/Add";
 import LoadPhoto from "../Components/loadPhoto";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
+import { useTranslation } from "react-i18next";
 const Profile = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const Logout = async () => {
     await signOut();
@@ -22,25 +24,25 @@ const Profile = () => {
           variant="contained"
           endIcon={<AddIcon />}
         >
-          Create event
+          {t("Create event")}
         </Button>
         <Button
           onClick={() => navigate("/manageEvents")}
           variant="contained"
           endIcon={<EditCalendarIcon />}
         >
-          Manage events
+          {t("Manage events")}
         </Button>
         <Button
           onClick={() => navigate("/settings")}
           variant="contained"
           endIcon={<SettingsIcon />}
         >
-          Settings
+          {t("Settings")}
         </Button>
 
         <Button onClick={Logout} variant="contained" endIcon={<LogoutIcon />}>
-          Log out
+          {t("Log out")}
         </Button>
       </Stack>
     </>

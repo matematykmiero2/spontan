@@ -15,23 +15,30 @@ import Settings from "./pages/settings";
 import Private from "./pages/private";
 import Manage from "./pages/organizerEvents";
 import EventInvitations from "./pages/eventInvitations";
-import { checkIfLogged } from "./functions";
-
+import { checkIfLogged, getUserSettings } from "./functions";
+import { useTranslation } from "react-i18next";
 function App() {
   const [logged, setLogged] = useState(null);
-
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     async function fetchAndParseEvents() {
-      const status = await checkIfLogged();
+      const status = checkIfLogged();
       setLogged(status);
+      if (status !== null) {
+        const settings = await getUserSettings();
+        const language = settings[0].language;
+        if (language) {
+          i18n.changeLanguage(language);
+          localStorage.setItem("lng", language);
+        }
+      }
     }
 
     fetchAndParseEvents();
   }, []);
 
-  // Show a loading message or spinner while checking the login status
   if (logged === null) {
-    return <div>Loading...</div>;
+    return <div> {t("Loading...")}</div>;
   }
 
   return (

@@ -4,7 +4,9 @@ import QRCode from "react-qr-code";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { Button, Chip, Stack, TextField } from "@mui/material";
 import { getInviteLink, sendFriendInvitation } from "../functions";
+import { useTranslation } from "react-i18next";
 const Friends = () => {
+  const { t } = useTranslation();
   const [showQR, setShowQR] = useState(true);
   const [code, setCode] = useState(null);
   const [link, setLink] = useState("noLink");
@@ -34,7 +36,7 @@ const Friends = () => {
           }}
         >
           <Button variant="contained" apa onClick={() => setShowQR(!showQR)}>
-            {showQR ? "Scan friends QR or insert Link" : "Show your QR"}
+            {showQR ? t("Scan friends QR or insert Link") : t("Show your QR")}
           </Button>
         </div>
         {showQR ? (
@@ -45,7 +47,7 @@ const Friends = () => {
               value={link}
               viewBox={`0 0 256 256`}
             />
-            <div>Your Link: {link}</div>
+            <div>{`${t("Your Link")} : ${link}`}</div>
           </>
         ) : (
           <>
@@ -63,7 +65,7 @@ const Friends = () => {
                   <Stack spacing={1}>
                     <Chip label={code} />
                     <Button onClick={sendInvite} variant="contained">
-                      Send invitation
+                      {t("Send invitation")}
                     </Button>
                   </Stack>
                 </>
@@ -71,14 +73,14 @@ const Friends = () => {
               <Stack>
                 <div style={{ margin: "30px" }}>
                   <TextField
-                    label="Insert friend invite Link"
+                    label={t("Insert friend invite Link")}
                     onChange={(event) => {
                       setText(event.target.value);
                     }}
                   ></TextField>
                 </div>
                 <Button onClick={sendInviteLink} variant="contained">
-                  Send invitation fot that link
+                  {t("Send invitation for that link")}
                 </Button>
               </Stack>
             </div>

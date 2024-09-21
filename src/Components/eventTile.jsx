@@ -11,6 +11,7 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import Chip from "@mui/material/Chip";
 import "./components.css";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const RecipeReviewCard = ({
   location,
@@ -23,6 +24,7 @@ const RecipeReviewCard = ({
   ispublic,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   return (
     <div style={{ padding: "10px" }}>
       <Card
@@ -42,7 +44,7 @@ const RecipeReviewCard = ({
           <CardContent>
             <div className="categories">
               {categories?.map((category) => (
-                <Chip key={category} label={category} variant="outlined" />
+                <Chip key={category} label={t(category)} variant="outlined" />
               ))}
             </div>
           </CardContent>

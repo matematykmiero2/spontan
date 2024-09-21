@@ -3,8 +3,10 @@ import { getUserEvents } from "../functions";
 import EventList from "../Components/list";
 import Button from "@mui/material/Button";
 import "../Components/components.css";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 const Signed = () => {
+  const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -23,7 +25,7 @@ const Signed = () => {
           variant="contained"
           onClick={() => navigate("/eventInvitations")}
         >
-          Show event invitations
+          {t("Show event invitations")}
         </Button>
       </div>
 

@@ -4,6 +4,20 @@ export const supabase = createClient(
   process.env.REACT_APP_API_KEY
 );
 
+export async function changeLanguage(lang) {
+  const id = getUserID();
+
+  let { data, error } = await supabase.rpc("update_user_language", {
+    p_language: lang,
+    p_user_id: id,
+  });
+  if (error) console.log(error);
+  else {
+    console.log(data);
+    return data;
+  }
+}
+
 export async function search(text) {
   const processedText = text
     .split(" ")
@@ -339,6 +353,11 @@ export async function getAllEvents() {
 }
 
 export function parseDate(events) {
+  const lang = localStorage.getItem("lng");
+  let local = "en-US";
+  if (lang !== "en") {
+    local = lang;
+  }
   events.forEach((event) => {
     const dateTimeStr = `${event.date}T${event.start_time}`;
     const date = new Date(dateTimeStr);
@@ -349,7 +368,7 @@ export function parseDate(events) {
       minute: "2-digit",
       hour12: false,
     };
-    event.date_time = date.toLocaleString("en-US", options).replace(",", "");
+    event.date_time = date.toLocaleString(local, options).replace(",", "");
     delete event.date;
     delete event.start_time;
   });

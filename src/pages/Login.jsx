@@ -6,7 +6,9 @@ import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { logIn } from "../functions";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 const Login = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ const Login = () => {
     if (logged) {
       window.location.reload();
     } else {
-      console.error("Login failed");
+      console.error(t("Login failed"));
     }
   };
 
@@ -30,7 +32,7 @@ const Login = () => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label={t("Email Address")}
             name="email"
             autoComplete="email"
             autoFocus
@@ -43,7 +45,7 @@ const Login = () => {
             required
             fullWidth
             name="password"
-            label="Password"
+            label={t("Password")}
             type="password"
             id="password"
             autoComplete="current-password"
@@ -57,14 +59,14 @@ const Login = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign in
+            {t("Sign in")}
           </Button>
           <Button
             onClick={() => navigate("/register")}
             fullWidth
             sx={{ mt: 3, mb: 2 }}
           >
-            Create account
+            {t("Create account")}
           </Button>
         </div>
       </div>

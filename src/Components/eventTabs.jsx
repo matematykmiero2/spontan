@@ -8,6 +8,7 @@ import { FixedSizeList } from "react-window";
 import Card from "./eventPageTile";
 import Chat from "./chat";
 import Kanban from "./kanban";
+import { useTranslation } from "react-i18next";
 import {
   getUserInvitations,
   getUserFriends,
@@ -51,7 +52,7 @@ function a11yProps(index) {
 
 const BasicTabs = ({ id, event }) => {
   const [value, setValue] = React.useState(0);
-
+  const { t } = useTranslation();
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -65,9 +66,9 @@ const BasicTabs = ({ id, event }) => {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Info" {...a11yProps(0)} />
-            <Tab label="Chat" {...a11yProps(1)} />
-            <Tab label="Kanban" {...a11yProps(2)} />
+            <Tab label={t("Info")} {...a11yProps(0)} />
+            <Tab label={t("Chat")} {...a11yProps(1)} />
+            <Tab label={t("Kanban")} {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -88,7 +89,7 @@ const BasicTabs = ({ id, event }) => {
                 id={id}
               />
             ) : (
-              <p>Loading ...</p>
+              <p>{t("Loading ...")}</p>
             )}
           </div>
         </CustomTabPanel>

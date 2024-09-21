@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import {
   Card as MuiCard,
   CardContent,
@@ -23,7 +24,7 @@ const TaskCard = ({
   onMove,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const { t } = useTranslation();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -61,7 +62,10 @@ const TaskCard = ({
         </Typography>
         <Stack>
           <Stack direction="row" spacing={2}>
-            <Typography variant="caption">Assignee: {assignee}</Typography>
+            <Typography variant="caption">
+              {" "}
+              {t("Assignee:")} {assignee}
+            </Typography>
           </Stack>
           <Typography variant="caption">
             {new Date(date).toLocaleDateString()}
@@ -70,11 +74,11 @@ const TaskCard = ({
         <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
           {assignee === "Unassigned" && (
             <Button variant="outlined" size="small" onClick={() => onAssign()}>
-              Assign
+              {t("Assign")}
             </Button>
           )}
           <Button variant="outlined" size="small" onClick={handleClick}>
-            Move
+            {t("Move")}
           </Button>
           <Menu
             anchorEl={anchorEl}
@@ -82,15 +86,19 @@ const TaskCard = ({
             onClose={handleClose}
           >
             {status !== "TODO" && (
-              <MenuItem onClick={() => handleMove("TODO")}>Todo</MenuItem>
+              <MenuItem onClick={() => handleMove("TODO")}>
+                {t("Todo")}{" "}
+              </MenuItem>
             )}
             {status !== "In progress" && (
               <MenuItem onClick={() => handleMove("In progress")}>
-                In progress
+                {t("In progress")}
               </MenuItem>
             )}
             {status !== "Done" && (
-              <MenuItem onClick={() => handleMove("Done")}>Done</MenuItem>
+              <MenuItem onClick={() => handleMove("Done")}>
+                {t("Done")}{" "}
+              </MenuItem>
             )}
           </Menu>
         </Stack>

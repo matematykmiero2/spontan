@@ -10,7 +10,9 @@ import EventIcon from "@mui/icons-material/Event";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import { useNavigate, useLocation } from "react-router-dom";
 import { checkIfLogged } from "../functions";
+import { useTranslation } from "react-i18next";
 const NavBar = ({ id }) => {
+  const { t } = useTranslation();
   const unLogged = checkIfLogged();
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -52,27 +54,27 @@ const NavBar = ({ id }) => {
         >
           <BottomNavigation value={value}>
             <BottomNavigationAction
-              label="Friends"
+              label={t("Friends")}
               icon={<Diversity3Icon />}
               onClick={() => navigate(unLogged ? "/friends" : "/login")}
             />
             <BottomNavigationAction
-              label="Explore"
+              label={t("Explore")}
               icon={<ExploreIcon />}
               onClick={() => navigate("/explore")}
             />
             <BottomNavigationAction
-              label="Home"
+              label={t("Home")}
               icon={<HomeIcon />}
               onClick={() => navigate("/")}
             />
             <BottomNavigationAction
-              label="Signed"
+              label={t("Signed")}
               icon={<EventIcon />}
               onClick={() => navigate(unLogged ? "/signed" : "/login")}
             />
             <BottomNavigationAction
-              label="Profile"
+              label={t("Profile")}
               icon={<AccountBoxIcon />}
               onClick={() => navigate(unLogged ? "/profile" : "/login")}
             />
@@ -85,27 +87,27 @@ const NavBar = ({ id }) => {
         >
           <BottomNavigation value={value} showLabels>
             <BottomNavigationAction
-              label="Friends"
+              label={t("Friends")}
               icon={<Diversity3Icon />}
               onClick={() => navigate(unLogged ? "/friends" : "/login")}
             />
             <BottomNavigationAction
-              label="Explore"
+              label={t("Explore")}
               icon={<ExploreIcon />}
               onClick={() => navigate("/explore")}
             />
             <BottomNavigationAction
-              label="Home"
+              label={t("Home")}
               icon={<HomeIcon />}
               onClick={() => navigate("/")}
             />
             <BottomNavigationAction
-              label="Signed"
+              label={t("Signed")}
               icon={<EventIcon />}
               onClick={() => navigate(unLogged ? "/signed" : "/login")}
             />
             <BottomNavigationAction
-              label="Profile"
+              label={t("Profile")}
               icon={<AccountBoxIcon />}
               onClick={() => navigate(unLogged ? "/profile" : "/login")}
             />

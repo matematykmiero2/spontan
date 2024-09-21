@@ -18,11 +18,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import "../Components/components.css";
-
+import { useTranslation } from "react-i18next";
 function renderRow(props) {
   const { index, style, data } = props;
   const event = data[index];
-
+  const { t } = data;
   return (
     <ListItem style={style} key={index} component="div" disablePadding>
       <Stack
@@ -40,14 +40,14 @@ function renderRow(props) {
           color={event.public ? "primary" : "secondary"}
           onClick={() => data.handleInvite(event.id)}
         >
-          Invite
+          {t("Invite")}
         </Button>
         <Button
           variant="contained"
           color={event.public ? "primary" : "secondary"}
           onClick={() => data.handleEdit(event.id)}
         >
-          Edit
+          {t("Edit")}
         </Button>
       </Stack>
     </ListItem>
@@ -60,7 +60,7 @@ const Signed = () => {
   const [openInviteModal, setOpenInviteModal] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [selectedFriends, setSelectedFriends] = useState({});
-
+  const { t } = useTranslation();
   useEffect(() => {
     async function fetchAndParseEvents() {
       const fetchedEvents = await getOrganizerEvents();
@@ -112,7 +112,7 @@ const Signed = () => {
           width={360}
           itemSize={46}
           itemCount={events.length}
-          itemData={{ ...events, handleInvite, handleEdit }}
+          itemData={{ ...events, handleInvite, handleEdit, t }}
           overscanCount={5}
         >
           {renderRow}
@@ -120,7 +120,7 @@ const Signed = () => {
       </Box>
 
       <Dialog open={openInviteModal} onClose={handleCloseInviteModal}>
-        <DialogTitle>Select Friends to Invite</DialogTitle>
+        <DialogTitle> {t("Select Friends to Invite")}</DialogTitle>
         <DialogContent>
           {friends.map((friend) => (
             <FormControlLabel
@@ -137,10 +137,10 @@ const Signed = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseInviteModal} color="primary">
-            Cancel
+            {t("Cancel")}
           </Button>
           <Button onClick={handleSendInvites} color="primary">
-            Send Invites
+            {t("Send Invites")}
           </Button>
         </DialogActions>
       </Dialog>

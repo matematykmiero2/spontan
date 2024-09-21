@@ -4,10 +4,10 @@ import { getEvent, checkUserEvent } from "../functions";
 import EventTabs from "../Components/eventTabs";
 import "./event.css";
 import Alert from "@mui/material/Alert";
-
+import { useTranslation } from "react-i18next";
 const EventPage = () => {
   const { id } = useParams();
-
+  const { t } = useTranslation();
   const [event, setEvent] = useState(null);
   const [isAvailable, setIsAvailable] = useState(false);
 
@@ -27,9 +27,7 @@ const EventPage = () => {
             setEvent(eventData);
           }
         }
-      } catch (error) {
-        console.error("Failed to fetch event data:", error);
-      }
+      } catch (error) {}
     }
 
     fetchEventData();
@@ -51,7 +49,7 @@ const EventPage = () => {
           <>
             {" "}
             <Alert severity="error">
-              You have no permission to see that event
+              {t("You have no permission to see that event")}
             </Alert>
           </>
         )

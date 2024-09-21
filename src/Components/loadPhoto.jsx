@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { uploadPhoto } from "../functions";
+import { useTranslation } from "react-i18next";
 const UploadImage = ({ handlePhotoSubmit }) => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState("");
-
+  const { t } = useTranslation();
   function handleChange(e) {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -17,7 +18,7 @@ const UploadImage = ({ handlePhotoSubmit }) => {
 
   async function handleUpload() {
     if (!file) {
-      alert("Please select a file first.");
+      alert(t("Please select a file first."));
       return;
     }
 
@@ -47,7 +48,7 @@ const UploadImage = ({ handlePhotoSubmit }) => {
         onClick={handleUpload}
         disabled={uploading}
       >
-        {uploading ? "Uploading..." : "Upload Image"}
+        {uploading ? t("Uploading...") : t("Upload Image")}
       </Button>
       {message && <p>{message}</p>}
     </div>

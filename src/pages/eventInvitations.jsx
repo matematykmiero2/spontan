@@ -13,10 +13,12 @@ import {
   declineInvitation,
 } from "../functions";
 import "../Components/components.css";
+import { useTranslation } from "react-i18next";
 
 function renderRow(props) {
   const { index, style, data } = props;
   const invitation = data[index];
+  const { t } = data;
 
   return (
     <ListItem style={style} key={index} component="div" disablePadding>
@@ -32,7 +34,7 @@ function renderRow(props) {
         >
           <ListItemText
             primary={invitation.event_name}
-            secondary={`Invited by: ${invitation.inviter_nickname}`}
+            secondary={`${t("Invited by")}: ${invitation.inviter_nickname}`}
           />
           <Stack direction="row" spacing={1}>
             <Button
@@ -40,14 +42,14 @@ function renderRow(props) {
               color="success"
               onClick={() => data.handleAccept(invitation.id)}
             >
-              Accept
+              {t("Accept")}
             </Button>
             <Button
               variant="outlined"
               color="error"
               onClick={() => data.handleDecline(invitation.id)}
             >
-              Decline
+              {t("Decline")}
             </Button>
           </Stack>
         </Stack>
@@ -58,6 +60,7 @@ function renderRow(props) {
 
 const Friends = () => {
   const [invitations, setInvitations] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchAndParseInvitations() {
@@ -89,7 +92,7 @@ const Friends = () => {
         width={360}
         itemSize={80}
         itemCount={invitations.length}
-        itemData={{ ...invitations, handleAccept, handleDecline }}
+        itemData={{ ...invitations, handleAccept, handleDecline, t }}
         overscanCount={5}
       >
         {renderRow}

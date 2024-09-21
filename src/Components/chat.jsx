@@ -7,7 +7,9 @@ import {
   sendMessage,
   supabase,
 } from "../functions";
+import { useTranslation } from "react-i18next";
 const Chat = ({ eventId, name }) => {
+  const { t } = useTranslation();
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [id, setId] = useState();
@@ -20,7 +22,6 @@ const Chat = ({ eventId, name }) => {
         setMessages(fetchedMessages);
       } else {
         setMessages([]);
-        console.error("Fetched messages is not an array:", fetchedMessages);
       }
 
       const userId = getUserID();
@@ -69,18 +70,18 @@ const Chat = ({ eventId, name }) => {
               />
             ))
           ) : (
-            <p>No messages yet</p>
+            <p>{t("No messages yet")}</p>
           )}
         </div>
         <div className="message-input">
           <input
             type="text"
-            placeholder="Type your message..."
+            placeholder={t("Type your message...")}
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
           <button className="WAbutton" onClick={handleSendMessage}>
-            Send
+            {t("Send")}
           </button>
         </div>
       </div>

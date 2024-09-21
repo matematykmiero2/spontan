@@ -11,6 +11,7 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { Chip } from "@mui/material";
 import { setUserEvent, deleteUserEvent } from "../functions";
 import "./components.css";
+import { useTranslation } from "react-i18next";
 const RecipeReviewCard = ({
   duration,
   price,
@@ -25,6 +26,7 @@ const RecipeReviewCard = ({
   categories,
   id,
 }) => {
+  const { t } = useTranslation();
   return (
     <div style={{ padding: "10px" }}>
       <Card sx={{ maxWidth: 345 }}>
@@ -34,7 +36,7 @@ const RecipeReviewCard = ({
           {categories && (
             <div className="categories">
               {categories.map((category) => (
-                <Chip key={category} label={category} variant="outlined" />
+                <Chip key={category} label={t(category)} variant="outlined" />
               ))}
             </div>
           )}
@@ -50,15 +52,15 @@ const RecipeReviewCard = ({
 
         <CardContent>
           <Typography gutterBottom variant="h7" component="div">
-            Organizer: {nickname}
+            {`${t("Organizer")}: ${nickname}`}
           </Typography>
         </CardContent>
         <CardContent>
           <Typography gutterBottom variant="h7" component="div">
-            Price: {price}$
+            {`${t("Price")}: ${price}`}
           </Typography>
           <Typography gutterBottom variant="h7" component="div">
-            Duration: {duration} h
+            {`${t("Duration")}: ${duration} h`}
           </Typography>
         </CardContent>
         <CardActions sx={{ marginTop: "auto" }}>

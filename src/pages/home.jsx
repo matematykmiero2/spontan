@@ -6,14 +6,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import "../Components/searchbar.css";
 import { IconButton } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
-
+import { useTranslation } from "react-i18next";
 const SearchBar = React.memo(({ onSearch, inputRef }) => {
+  const { t } = useTranslation();
   return (
     <div className="fixed-search-bar">
       <div className="search-bar">
         <input
           className="search-input"
-          placeholder="Search..."
+          placeholder={t("Search...")}
           ref={inputRef}
         />
         <IconButton color="primary" onClick={onSearch}>

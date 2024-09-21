@@ -15,7 +15,7 @@ import Multiselect from "../Components/multiselect";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { useNavigate } from "react-router-dom";
 import ListItemText from "@mui/material/ListItemText";
-
+import { useTranslation } from "react-i18next";
 import Checkbox from "@mui/material/Checkbox";
 import {
   set_event_categories,
@@ -37,31 +37,10 @@ const modalStyle = {
   boxShadow: 24,
   p: 4,
 };
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
 const CreateEvent = () => {
   const [locations, setLocations] = useState([]);
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const navigate = useNavigate();
@@ -127,7 +106,7 @@ const CreateEvent = () => {
         navigate(`/event/${newId}`);
       }
     } else {
-      alert("Please fill out all required fields.");
+      alert(t("Please fill out all required fields."));
     }
   };
   const validateEvent = (event) => {
@@ -173,19 +152,22 @@ const CreateEvent = () => {
     <div className="page">
       <Box sx={{ paddingInline: 5, paddingBlockEnd: 5, overflow: "auto" }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Create New Event
+          {t("Create New Event")}
         </Typography>
         <Grid container spacing={2}>
           {locations && (
             <Grid item xs={12} sm={6}>
               <FormControl required fullWidth>
-                <InputLabel id="location-select-label">Location</InputLabel>
+                <InputLabel id="location-select-label">
+                  {" "}
+                  {t("Location")}
+                </InputLabel>
 
                 <Select
                   labelId="location-select-label"
                   id="location-select"
                   value={newEvent.location_id}
-                  label="Location"
+                  label={t("Location")}
                   onChange={handleLocationChange}
                 >
                   {locations.map((item, index) => (
@@ -204,13 +186,13 @@ const CreateEvent = () => {
               onClick={handleOpen}
               sx={{ height: "100%", width: "100%" }}
             >
-              Add New Location
+              {t("Add New Location")}
             </Button>
           </Grid>
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Name"
+              label={t("Name")}
               name="name"
               value={newEvent.name}
               onChange={handleEventInputChange}
@@ -220,7 +202,7 @@ const CreateEvent = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Description"
+              label={t("Description")}
               name="description"
               value={newEvent.description}
               onChange={handleEventInputChange}
@@ -231,7 +213,7 @@ const CreateEvent = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Start Time"
+              label={t("Start Time")}
               name="start_time"
               type="datetime-local"
               value={newEvent.start_time}
@@ -245,7 +227,7 @@ const CreateEvent = () => {
           <Grid item xs={12} sm={6}>
             <FormControl required>
               <Stack>
-                Public
+                {t("Public")}
                 <Switch
                   id="public-toggle"
                   name="public"
@@ -263,7 +245,7 @@ const CreateEvent = () => {
 
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Duration (minutes)"
+              label={`${t("Duration")} [h]`}
               name="duration"
               type="number"
               value={newEvent.duration}
@@ -274,7 +256,7 @@ const CreateEvent = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Price"
+              label={t("Price")}
               name="price"
               type="number"
               value={newEvent.price}
@@ -285,7 +267,7 @@ const CreateEvent = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Photo URL"
+              label={t("Photo URL")}
               name="photo"
               value={newEvent.photo}
               onChange={handleEventInputChange}
@@ -300,12 +282,12 @@ const CreateEvent = () => {
               onClick={handleOpenPhoto}
               sx={{ height: "100%", width: "100%" }}
             >
-              Upload photo
+              {t("Upload photo")}
             </Button>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              label="Max Participants"
+              label={t("Max Participants")}
               name="max_participants"
               type="number"
               value={newEvent.max_participants}
@@ -321,7 +303,7 @@ const CreateEvent = () => {
               onClick={handleEventSubmit}
               fullWidth
             >
-              Submit Event
+              {t("Submit Event")}
             </Button>
           </Grid>
         </Grid>

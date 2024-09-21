@@ -17,6 +17,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { useTranslation } from "react-i18next";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -47,6 +48,7 @@ function a11yProps(index) {
 }
 
 const BasicTabs = ({ eventId }) => {
+  const { t } = useTranslation();
   const [value, setValue] = useState(0);
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
@@ -112,9 +114,9 @@ const BasicTabs = ({ eventId }) => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Todo" {...a11yProps(0)} />
-          <Tab label="In progress" {...a11yProps(1)} />
-          <Tab label="Done" {...a11yProps(2)} />
+          <Tab label={t("Todo")} {...a11yProps(0)} />
+          <Tab label={t("In progress")} {...a11yProps(1)} />
+          <Tab label={t("Done")} {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -140,13 +142,13 @@ const BasicTabs = ({ eventId }) => {
       </CustomTabPanel>
 
       <Dialog open={open} onClose={handleCloseModal}>
-        <DialogTitle>Add New Task</DialogTitle>
+        <DialogTitle> {t("Add New Task")}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             name="summary"
-            label="Summary"
+            label={t("Summary")}
             type="text"
             fullWidth
             variant="outlined"
@@ -156,7 +158,7 @@ const BasicTabs = ({ eventId }) => {
           <TextField
             margin="dense"
             name="description"
-            label="Description"
+            label={t("Description")}
             type="text"
             fullWidth
             variant="outlined"
@@ -168,10 +170,10 @@ const BasicTabs = ({ eventId }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseModal} color="primary">
-            Cancel
+            {t("Cancel")}
           </Button>
           <Button onClick={handleSubmit} color="primary">
-            Add Task
+            {t("Add Task")}
           </Button>
         </DialogActions>
       </Dialog>

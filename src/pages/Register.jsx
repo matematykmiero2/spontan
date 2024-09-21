@@ -6,7 +6,9 @@ import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { signUp } from "../functions";
+import { useTranslation } from "react-i18next";
 const Register = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -29,7 +31,7 @@ const Register = () => {
     if (!emailError && email && password && name && surname && nickname) {
       await signUp(email, password, name, surname, nickname);
     } else {
-      alert("Fullfill all fields");
+      alert(t("Please fill out all required fields."));
     }
   };
   return (
@@ -43,13 +45,13 @@ const Register = () => {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={t("Email Address")}
               name="email"
               autoComplete="email"
               onChange={handleEmailChange}
               error={emailError}
               helperText={
-                emailError ? "Please enter a valid email address" : ""
+                emailError ? t("Please enter a valid email address") : ""
               }
             />
             <TextField
@@ -57,7 +59,7 @@ const Register = () => {
               required
               fullWidth
               id="name"
-              label="First name"
+              label={t("First name")}
               name="name"
               autoComplete="name"
               onChange={(event) => {
@@ -69,7 +71,7 @@ const Register = () => {
               required
               fullWidth
               id="lastname"
-              label="Last name"
+              label={t("Last name")}
               name="lastname"
               autoComplete="lastname"
               onChange={(event) => {
@@ -81,7 +83,7 @@ const Register = () => {
               required
               fullWidth
               id="nickname"
-              label="Nickname"
+              label={t("Nickname")}
               name="nickname"
               autoComplete="nickname"
               onChange={(event) => {
@@ -93,7 +95,7 @@ const Register = () => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={t("Password")}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -107,14 +109,14 @@ const Register = () => {
               variant="contained"
               sx={{ mt: 1, mb: 0 }}
             >
-              Create account
+              {t("Create account")}
             </Button>
             <Button
               onClick={() => navigate("/login")}
               fullWidth
               sx={{ mt: 1, mb: 3 }}
             >
-              Sign in
+              {t("Sign in")}
             </Button>
           </Box>
         </div>

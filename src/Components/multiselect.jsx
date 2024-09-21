@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
-
+import { useTranslation } from "react-i18next";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -27,25 +27,27 @@ export default function MultipleSelectCheckmarks({
     const {
       target: { value },
     } = event;
-    // Update selected categories based on ids
+
     selectCategory(typeof value === "string" ? value.split(",") : value);
   };
-
+  const { t } = useTranslation();
   return (
     <div>
       <FormControl required sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Categories</InputLabel>
+        <InputLabel id="demo-multiple-checkbox-label">
+          {t("Categories")}
+        </InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
           value={selectedCategories}
           onChange={handleChange}
-          input={<OutlinedInput label="Categories" />}
+          input={<OutlinedInput label={t("Categories")} />}
           renderValue={(selected) => {
             const selectedNames = categories
               .filter((category) => selected.includes(category.category_id))
-              .map((category) => category.category_name);
+              .map((category) => t(category.category_name));
             return selectedNames.join(", ");
           }}
           MenuProps={MenuProps}
@@ -55,7 +57,7 @@ export default function MultipleSelectCheckmarks({
               <Checkbox
                 checked={selectedCategories.indexOf(item.category_id) > -1}
               />
-              <ListItemText primary={item.category_name} />
+              <ListItemText primary={t(item.category_name)} />
             </MenuItem>
           ))}
         </Select>

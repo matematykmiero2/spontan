@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import ListItemText from "@mui/material/ListItemText";
 import { FixedSizeList } from "react-window";
+import { useTranslation } from "react-i18next";
 import {
   getUserInvitations,
   getUserFriends,
@@ -47,6 +48,7 @@ function a11yProps(index) {
 }
 
 const BasicTabs = () => {
+  const { t } = useTranslation();
   const [value, setValue] = React.useState(0);
   const [friends, setFriends] = useState();
   const [invitations, setInvitations] = useState();
@@ -64,7 +66,7 @@ const BasicTabs = () => {
           color="error"
           onClick={() => deleteFriend(friends[index].friend_id)}
         >
-          Remove
+          {t("Remove")}
         </Button>
       </ListItemButton>
     );
@@ -79,7 +81,7 @@ const BasicTabs = () => {
           primary={`${invitations[index].inviter_first_name} ${invitations[index].inviter_last_name} `}
         />
         <Button onClick={() => makeFriend(invitations[index].inviter_id)}>
-          accept
+          {t("Accept")}
         </Button>
       </ListItemButton>
     );
@@ -99,7 +101,7 @@ const BasicTabs = () => {
             deleteFriendInvitation(userInvitations[index].invited_id)
           }
         >
-          Remove
+          {t("Remove")}
         </Button>
       </ListItemButton>
     );
@@ -127,9 +129,9 @@ const BasicTabs = () => {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Friends" {...a11yProps(0)} />
-          <Tab label="Invitations" {...a11yProps(1)} />
-          <Tab label="Your invitations" {...a11yProps(2)} />
+          <Tab label={t("Friends")} {...a11yProps(0)} />
+          <Tab label={t("Invitations")} {...a11yProps(1)} />
+          <Tab label={t("Your invitations")} {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -160,7 +162,7 @@ const BasicTabs = () => {
               </FixedSizeList>
             </>
           ) : (
-            "No invitations"
+            t("No invitations")
           )}
         </>
       </CustomTabPanel>
@@ -179,7 +181,7 @@ const BasicTabs = () => {
               </FixedSizeList>
             </>
           ) : (
-            "No send invitations "
+            t("No send invitations")
           )}
         </>
       </CustomTabPanel>
