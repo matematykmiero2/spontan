@@ -12,7 +12,7 @@ import Chip from "@mui/material/Chip";
 import "./components.css";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
+import { useMediaQuery } from "@react-hook/media-query";
 const RecipeReviewCard = ({
   location,
   name,
@@ -25,12 +25,13 @@ const RecipeReviewCard = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const isMobile = useMediaQuery("(max-width: 768px)");
   return (
     <div style={{ padding: "10px" }}>
       <Card
         sx={{
           width: 345,
-          height: "auto",
+          height: isMobile ? "auto" : "600px",
           display: "flex",
           flexDirection: "column",
         }}

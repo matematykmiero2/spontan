@@ -12,9 +12,16 @@ const Friends = () => {
       <div className="page" style={{ marginTop: "40px" }}>
         <div>
           <Stack spacing={2}>
-            <Button onClick={() => navigate("/addFriend")} variant="contained">
-              {t("Add friend")}
-            </Button>
+            <div style={{ paddingInline: "5%" }}>
+              <Button
+                fullWidth
+                onClick={() => navigate("/addFriend")}
+                variant="contained"
+              >
+                {t("Add friend")}
+              </Button>
+            </div>
+
             <div>
               <FriendsTab />
             </div>

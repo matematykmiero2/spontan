@@ -157,7 +157,7 @@ const Register = () => {
                 }}
               />
               <div style={{ width: "100%" }}>
-                <Button variant="contained" onClick={handleNickname}>
+                <Button fullWidth variant="contained" onClick={handleNickname}>
                   {t("Change nickname")}
                 </Button>
               </div>
@@ -172,6 +172,7 @@ const Register = () => {
             </Box>
             <Box noValidate sx={{ mt: 2 }}>
               <Button
+                fullWidth
                 variant="contained"
                 onClick={async () => await updateInvitationLink()}
               >
@@ -184,7 +185,8 @@ const Register = () => {
                 selectedCategories={selectedCategories}
                 selectCategory={setSelectedCategories}
               />
-              <Button variant="contained" onClick={handleCategories}>
+
+              <Button fullWidth variant="contained" onClick={handleCategories}>
                 {t("Change preferred categories")}
               </Button>
             </Box>
