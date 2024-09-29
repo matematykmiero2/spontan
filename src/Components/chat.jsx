@@ -36,8 +36,12 @@ const Chat = ({ eventId, name }) => {
           schema: "public",
           table: "messages",
         },
-        (payload) =>
-          setMessages((prevMessages) => [...prevMessages, payload.new])
+        async (payload) => {
+          console.log(payload);
+          if (payload.new.event_id === eventId) {
+            setMessages(await getMessagesForEvent(eventId));
+          }
+        }
       )
       .subscribe();
     fetchData();

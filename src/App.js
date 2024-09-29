@@ -15,27 +15,55 @@ import Settings from "./pages/settings";
 import Private from "./pages/private";
 import Manage from "./pages/organizerEvents";
 import EventInvitations from "./pages/eventInvitations";
-import { checkIfLogged, getUserSettings } from "./functions";
+import {
+  checkIfLogged,
+  getUserSettings,
+  getNotifications,
+  getUserID,
+  supabase,
+} from "./functions";
 import { useTranslation } from "react-i18next";
+import NotificationBell from "./Components/notificationBell";
 function App() {
   const [logged, setLogged] = useState(null);
+  const [notifications, setNotifications] = useState();
+  const [settings, setSettings] = useState();
   const { t, i18n } = useTranslation();
+  const [id, setId] = useState();
   useEffect(() => {
     async function fetchAndParseEvents() {
       const status = checkIfLogged();
       setLogged(status);
       if (status !== null) {
         const settings = await getUserSettings();
-        const language = settings[0].language;
-        if (language) {
-          i18n.changeLanguage(language);
-          localStorage.setItem("lng", language);
+        setSettings(settings[0]);
+        if (settings && settings[0] && settings[0].language) {
+          const language = settings[0].language;
+          if (language) {
+            i18n.changeLanguage(language);
+            localStorage.setItem("lng", language);
+          }
         }
       }
     }
 
     fetchAndParseEvents();
   }, []);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      if (
+        logged &&
+        settings &&
+        settings.notifications &&
+        settings.notifications === true
+      ) {
+        const fetchedNotifications = await getNotifications();
+        setNotifications(fetchedNotifications);
+      }
+    };
+
+    fetchNotifications();
+  }, [logged, settings]);
 
   if (logged === null) {
     return <div> {t("Loading...")}</div>;
@@ -43,6 +71,13 @@ function App() {
 
   return (
     <HashRouter>
+      {notifications &&
+        notifications.length > 0 &&
+        settings &&
+        settings.notifications &&
+        settings.notifications === true && (
+          <NotificationBell notifications={notifications} />
+        )}
       {logged && <NavBar />}
       <Routes>
         {!logged ? (

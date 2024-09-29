@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import ListItemText from "@mui/material/ListItemText";
 import { FixedSizeList } from "react-window";
 import { useTranslation } from "react-i18next";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+
 import {
   getUserInvitations,
   getUserFriends,
@@ -64,7 +66,10 @@ const BasicTabs = () => {
         />
         <Button
           color="error"
-          onClick={() => deleteFriend(friends[index].friend_id)}
+          onClick={async () => {
+            await deleteFriend(friends[index].friend_id);
+            await init();
+          }}
         >
           {t("Remove")}
         </Button>
@@ -80,7 +85,12 @@ const BasicTabs = () => {
         <ListItemText
           primary={`${invitations[index].inviter_first_name} ${invitations[index].inviter_last_name} `}
         />
-        <Button onClick={() => makeFriend(invitations[index].inviter_id)}>
+        <Button
+          onClick={async () => {
+            await makeFriend(invitations[index].inviter_id);
+            await init();
+          }}
+        >
           {t("Accept")}
         </Button>
       </ListItemButton>
@@ -97,23 +107,22 @@ const BasicTabs = () => {
         />
         <Button
           color="error"
-          onClick={() =>
-            deleteFriendInvitation(userInvitations[index].invited_id)
-          }
+          onClick={async () => {
+            await deleteFriendInvitation(userInvitations[index].invited_id);
+            await init();
+          }}
         >
           {t("Remove")}
         </Button>
       </ListItemButton>
     );
   }
-
+  async function init() {
+    setFriends(await getUserFriends());
+    setInvitations(await getUserInvitations());
+    setUserInvitations(await getUserSendInvitations());
+  }
   useEffect(() => {
-    async function init() {
-      setFriends(await getUserFriends());
-      setInvitations(await getUserInvitations());
-      setUserInvitations(await getUserSendInvitations());
-    }
-
     init();
   }, []);
 
@@ -130,7 +139,20 @@ const BasicTabs = () => {
           aria-label="basic tabs example"
         >
           <Tab label={t("Friends")} {...a11yProps(0)} />
-          <Tab label={t("Invitations")} {...a11yProps(1)} />
+          <Tab
+            label={
+              invitations && invitations.length === 0 ? (
+                t("Invitations")
+              ) : (
+                <Stack direction="row" spacing={1}>
+                  {t("Invitations")}
+                  <NotificationsIcon />
+                </Stack>
+              )
+            }
+            {...a11yProps(1)}
+          />
+
           <Tab label={t("Your invitations")} {...a11yProps(2)} />
         </Tabs>
       </Box>

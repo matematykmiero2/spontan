@@ -319,6 +319,42 @@ export async function logIn(email, password) {
   }
 }
 
+export async function deleteNotification(p_id) {
+  console.log(p_id);
+  const id = getUserID();
+  if (id && p_id) {
+    let { data, error } = await supabase.rpc("delete_user_notification", {
+      p_notification_id: p_id,
+      p_user_id: id,
+    });
+    if (error) console.error(error);
+    else console.log(data);
+  }
+}
+export async function deleteNotifications() {
+  const id = getUserID();
+  if (id) {
+    let { data, error } = await supabase.rpc("delete_user_notifications", {
+      p_user_id: id,
+    });
+    if (error) console.error(error);
+    else console.log(data);
+  }
+}
+export async function getNotifications() {
+  const id = getUserID();
+  if (id) {
+    let { data, error } = await supabase.rpc("get_user_notifications", {
+      p_user_id: id,
+    });
+    if (error) console.error(error);
+    else {
+      console.log("notifications", data);
+      return data;
+    }
+  }
+}
+
 export async function sendMessage(event_id, body) {
   const id = getUserID();
   if (id) {

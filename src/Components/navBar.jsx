@@ -11,6 +11,7 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import { useNavigate, useLocation } from "react-router-dom";
 import { checkIfLogged } from "../functions";
 import { useTranslation } from "react-i18next";
+
 const NavBar = ({ id }) => {
   const { t } = useTranslation();
   const unLogged = checkIfLogged();

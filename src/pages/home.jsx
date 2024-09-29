@@ -7,8 +7,10 @@ import "../Components/searchbar.css";
 import { IconButton } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useTranslation } from "react-i18next";
+
 const SearchBar = React.memo(({ onSearch, inputRef }) => {
   const { t } = useTranslation();
+
   return (
     <div className="fixed-search-bar">
       <div className="search-bar">
