@@ -4,6 +4,20 @@ export const supabase = createClient(
   process.env.REACT_APP_API_KEY
 );
 
+export async function filterEvents(categories, startdate, enddate) {
+  console.log(categories, startdate, enddate);
+  let { data, error } = await supabase.rpc("getfilteredevents", {
+    categories: categories && categories.length > 0 ? categories : null,
+    enddate: enddate !== "" ? enddate : undefined,
+    startdate: startdate !== "" ? startdate : undefined,
+  });
+  if (error) console.error(error);
+  else {
+    console.log(data);
+    return data;
+  }
+}
+
 export async function updateEvent(id, newValue) {
   console.log("id", id, "event", newValue);
   let { data, error } = await supabase.rpc("edit_event", {

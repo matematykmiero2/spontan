@@ -1,41 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../Components/components.css";
 import EventList from "../Components/list";
 import { getAllEvents, search } from "../functions";
 import SearchIcon from "@mui/icons-material/Search";
 import "../Components/searchbar.css";
-import {
-  IconButton,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Button,
-} from "@mui/material";
+import { IconButton } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useTranslation } from "react-i18next";
-
-const SearchBar = React.memo(({ onSearch, inputRef }) => {
-  const { t } = useTranslation();
-
-  return (
-    <div className="fixed-search-bar">
-      <div className="search-bar">
-        <input
-          className="search-input"
-          placeholder={t("Search...")}
-          ref={inputRef}
-        />
-        <IconButton color="primary" onClick={onSearch}>
-          <SearchIcon />
-        </IconButton>
-        <IconButton color="primary">
-          <TuneIcon />
-        </IconButton>
-      </div>
-    </div>
-  );
-});
+import SearchBar from "../Components/searchBar";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -64,7 +36,11 @@ const Home = () => {
   return (
     <>
       <div>
-        <SearchBar onSearch={handleSearch} inputRef={inputRef} />
+        <SearchBar
+          onSearch={handleSearch}
+          inputRef={inputRef}
+          setEvents={setEvents}
+        />
         <div className="page">{<EventList events={events} />}</div>
       </div>
     </>
