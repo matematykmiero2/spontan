@@ -321,7 +321,7 @@ const CreateEvent = () => {
               component="h2"
               gutterBottom
             >
-              Add New Location
+              {t("Add New Location")}
             </Typography>
             <Stack spacing={2}>
               <TextField
@@ -366,7 +366,7 @@ const CreateEvent = () => {
                 onClick={handleLocationSubmit}
                 fullWidth
               >
-                Add location
+                {t("Add location")}
               </Button>
             </Stack>
           </Box>
@@ -384,7 +384,7 @@ const CreateEvent = () => {
               component="h2"
               gutterBottom
             >
-              Upload photo
+              {t("Upload photo")}
             </Typography>
             <Stack spacing={2}>
               <LoadPhoto handlePhotoSubmit={handlePhotoSubmit} />

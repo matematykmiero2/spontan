@@ -1,10 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import "../Components/components.css";
 import EventList from "../Components/list";
 import { getAllEvents, search } from "../functions";
 import SearchIcon from "@mui/icons-material/Search";
 import "../Components/searchbar.css";
-import { IconButton } from "@mui/material";
+import {
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useTranslation } from "react-i18next";
 

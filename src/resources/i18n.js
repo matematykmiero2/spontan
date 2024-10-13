@@ -80,6 +80,7 @@ i18next.use(initReactI18next).init({
           "Please fill out all required fields.",
         "Create New Event": "Create New Event",
         "Add New Location": "Add New Location",
+        "Add Location": "Add Location",
         "Login failed": "Login failed",
         "Email Address": "Email Address",
         Password: "Password",

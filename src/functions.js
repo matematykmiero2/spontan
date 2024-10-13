@@ -4,6 +4,16 @@ export const supabase = createClient(
   process.env.REACT_APP_API_KEY
 );
 
+export async function updateEvent(id, newValue) {
+  console.log("id", id, "event", newValue);
+  let { data, error } = await supabase.rpc("edit_event", {
+    event_id: id,
+    event_values: newValue,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+}
+
 export async function changeLanguage(lang) {
   const id = getUserID();
 
@@ -615,8 +625,14 @@ export async function getUserFriends() {
   return "Error";
 }
 
-export async function getEventsForMap() {
-  let { data, error } = await supabase.rpc("geteventsformap");
+export async function getEventsForMap(bounds) {
+  console.log("bounds", bounds);
+  let { data, error } = await supabase.rpc("get_events_in_bounds", {
+    ne_lat: bounds && bounds.ne_lat ? bounds.ne_lat : 51.157923237343425,
+    ne_lng: bounds && bounds.neLng ? bounds.neLng : 17.066230773925785,
+    sw_lat: bounds && bounds.swLat ? bounds.swLat : 51.05930741068962,
+    sw_lng: bounds && bounds.swLng ? bounds.swLng : 16.995506286621097,
+  });
   if (error) console.error(error);
   else console.log(data);
   return data;

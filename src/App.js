@@ -36,8 +36,9 @@ function App() {
       setLogged(status);
       if (status !== null) {
         const settings = await getUserSettings();
-        setSettings(settings[0]);
+
         if (settings && settings[0] && settings[0].language) {
+          setSettings(settings[0]);
           const language = settings[0].language;
           if (language) {
             i18n.changeLanguage(language);
