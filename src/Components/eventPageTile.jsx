@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,11 +7,86 @@ import CardActions from "@mui/material/CardActions";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import ShareIcon from "@mui/icons-material/Share";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
-import { Chip } from "@mui/material";
+
+import { Chip, Stack } from "@mui/material";
 import { setUserEvent, deleteUserEvent } from "../functions";
 import "./components.css";
 import { useTranslation } from "react-i18next";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  XIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+  EmailShareButton,
+  EmailIcon,
+} from "react-share";
+
+const ShareModal = ({ link, name, isOpen, close }) => {
+  return (
+    <Dialog open={isOpen} onClose={close}>
+      <DialogTitle>Udostępnij</DialogTitle>
+      <DialogContent>
+        <Stack spacing={2}>
+          <ShareButton
+            ShareComponent={FacebookShareButton}
+            icon={FacebookIcon}
+            title="Facebook"
+            url={link}
+            name={name}
+          />
+          <ShareButton
+            ShareComponent={TwitterShareButton}
+            icon={XIcon}
+            title="Twitter"
+            url={link}
+            name={name}
+          />
+          <ShareButton
+            ShareComponent={WhatsappShareButton}
+            icon={WhatsappIcon}
+            title="WhatsApp"
+            url={link}
+            name={name}
+          />
+          <ShareButton
+            ShareComponent={EmailShareButton}
+            icon={EmailIcon}
+            name={name}
+            title="Email"
+            url={link}
+          />
+        </Stack>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={close} color="primary">
+          Zamknij
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+const ShareButton = ({ ShareComponent, icon: Icon, name, title, url }) => (
+  <ShareComponent
+    url={url}
+    title={name}
+    style={{ display: "flex", alignItems: "center" }}
+  >
+    <Icon size={32} round />
+    <Typography variant="body1" style={{ marginLeft: "8px" }}>
+      {title}
+    </Typography>
+  </ShareComponent>
+);
+
 const RecipeReviewCard = ({
   duration,
   price,
@@ -25,11 +100,14 @@ const RecipeReviewCard = ({
   photo,
   categories,
   id,
+  unsigned,
+  refresh,
 }) => {
   const { t } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div style={{ padding: "10px" }}>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card sx={{ width: 345 }}>
         <CardHeader title={name} subheader={date} />
         <CardMedia component="img" height="194" image={photo} alt="alt" />
         <CardContent>
@@ -64,17 +142,32 @@ const RecipeReviewCard = ({
           </Typography>
         </CardContent>
         <CardActions sx={{ marginTop: "auto" }}>
-          <IconButton
-            aria-label="add to favorites"
-            onClick={() => setUserEvent(id)}
-          >
-            <EventAvailableIcon />
-          </IconButton>
-          <IconButton aria-label="share">
+          <IconButton aria-label="share" onClick={() => setIsOpen(true)}>
             <ShareIcon />
           </IconButton>
+
+          {unsigned && (
+            <Button
+              fullWidth
+              variant="contained"
+              aria-label="add to favorites"
+              onClick={async () => {
+                await setUserEvent(id);
+
+                await refresh();
+              }}
+            >
+              Sign in
+            </Button>
+          )}
         </CardActions>
       </Card>
+      <ShareModal
+        name={name}
+        link={`${window.location.href}/${id}`}
+        isOpen={isOpen}
+        close={() => setIsOpen(false)}
+      />
     </div>
   );
 };

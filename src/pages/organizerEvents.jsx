@@ -24,44 +24,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useTranslation } from "react-i18next";
 import "../Components/components.css";
-
-function renderRow(props) {
-  const { index, style, data } = props;
-  const event = data[index];
-  const { t } = data;
-
-  return (
-    <ListItem style={style} key={index} component="div" disablePadding>
-      <Stack
-        direction="row"
-        spacing={2}
-        sx={{
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <ListItemText primary={event.name} />
-        <Button
-          variant="contained"
-          color={event.public ? "primary" : "secondary"}
-          onClick={() => data.handleInvite(event.id)}
-        >
-          {t("Invite")}
-        </Button>
-        <Button
-          variant="contained"
-          color={event.public ? "primary" : "secondary"}
-          onClick={() => data.handleEdit(event)}
-        >
-          {t("Edit")}
-        </Button>
-      </Stack>
-    </ListItem>
-  );
-}
+import { ListItemButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Signed = () => {
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [friends, setFriends] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -172,6 +139,44 @@ const Signed = () => {
     setSelectedEvent(event);
     setOpenEditModal(true);
   };
+
+  function renderRow(props) {
+    const { index, style, data } = props;
+    const event = data[index];
+    const { t } = data;
+
+    return (
+      <ListItem style={style} key={index} component="div" disablePadding>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <ListItemButton onClick={() => navigate(`/event/${event.id}`)}>
+            {event.name}
+          </ListItemButton>
+          <Button
+            variant="contained"
+            color={event.public ? "primary" : "secondary"}
+            onClick={() => data.handleInvite(event.id)}
+          >
+            {t("Invite")}
+          </Button>
+          <Button
+            variant="contained"
+            color={event.public ? "primary" : "secondary"}
+            onClick={() => data.handleEdit(event)}
+          >
+            {t("Edit")}
+          </Button>
+        </Stack>
+      </ListItem>
+    );
+  }
 
   return (
     <div className="page" style={{ marginTop: "10px" }}>
