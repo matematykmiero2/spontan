@@ -4,6 +4,34 @@ export const supabase = createClient(
   process.env.REACT_APP_API_KEY
 );
 
+export async function generateTasks(name, description) {
+  const url = "http://127.0.0.1:8000/generate-tasks/";
+  const data = {
+    event_description: `${name}: ${description}`,
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const result = await response.json();
+    //console.log("Success:", result);
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    console.info("Check if your model API is running");
+  }
+}
+
 export async function filterEvents(categories, startdate, enddate) {
   console.log(categories, startdate, enddate);
   let { data, error } = await supabase.rpc("getfilteredevents", {

@@ -4,11 +4,13 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
+import Alert from "@mui/material/Alert";
 import {
   getTasks,
   assignToTask,
   changeTaskStatus,
   addTask,
+  generateTasks,
 } from "../functions";
 import TaskList from "./kanbanComponents/TaskList";
 import Dialog from "@mui/material/Dialog";
@@ -18,6 +20,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useTranslation } from "react-i18next";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import { Stack } from "@mui/material";
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -47,11 +51,15 @@ function a11yProps(index) {
   };
 }
 
-const BasicTabs = ({ eventId }) => {
+const BasicTabs = ({ eventId, eventDescription, eventName }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(0);
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
+  const [generatingTasks, setGeneratingTasks] = useState(false);
+  const [suggestedTasks, setSuggestedTasks] = useState([]);
+  const [taskModal, setTaskModal] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [newTask, setNewTask] = useState({
     summary: "",
     description: "",
@@ -59,6 +67,7 @@ const BasicTabs = ({ eventId }) => {
 
   const fetchTasks = async (eventId) => {
     const fetchedTasks = await getTasks(eventId);
+
     setTasks(fetchedTasks || []);
   };
   useEffect(() => {
@@ -86,6 +95,14 @@ const BasicTabs = ({ eventId }) => {
     setOpen(false);
   };
 
+  const handleOpenTaskModal = () => {
+    setTaskModal(true);
+  };
+
+  const handleCloseTaskModal = () => {
+    setTaskModal(false);
+  };
+
   const handleSubmit = async () => {
     console.log("ok");
     await addTask(eventId, newTask);
@@ -101,13 +118,30 @@ const BasicTabs = ({ eventId }) => {
       [name]: value,
     }));
   };
+
+  const handleGenerateTasks = async () => {
+    setSuggestedTasks([]);
+    setGeneratingTasks(true);
+    const tasks = await generateTasks(eventName, eventDescription);
+    console.log(tasks);
+    if (tasks && tasks.length > 0) {
+      setSuggestedTasks(tasks);
+    } else {
+      setShowError(true);
+    }
+
+    setGeneratingTasks(false);
+  };
   return (
     <Box sx={{ width: "100%" }}>
-      <div>
-        {" "}
-        <AddIcon color="primary" onClick={handleOpenModal} />
-      </div>
-
+      <Stack direction="row" spacing={2}>
+        <div onClick={handleOpenModal}>
+          <AddIcon color="primary" />
+        </div>
+        <div onClick={handleOpenTaskModal}>
+          <AutoAwesomeIcon color="primary" />
+        </div>
+      </Stack>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -174,6 +208,46 @@ const BasicTabs = ({ eventId }) => {
           </Button>
           <Button onClick={handleSubmit} color="primary">
             {t("Add Task")}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={taskModal} onClose={handleCloseTaskModal}>
+        <DialogTitle> {t("AI suggested Tasks")}</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2}>
+            <Alert severity="info">
+              This is an experimental feature. The API with the model must be
+              run locally.
+            </Alert>
+            <Button
+              onClick={handleGenerateTasks}
+              variant="contained"
+              color="primary"
+            >
+              {t("Suggest tasks")}
+            </Button>
+            {generatingTasks && "Generating tasks..."}
+            {suggestedTasks.length > 0 && (
+              <Stack spacing={1}>
+                {suggestedTasks.map((task, index) => (
+                  <div key={index}>
+                    <p>{task}</p>
+                    <Button variant="contained">{t("Add Task")}</Button>
+                  </div>
+                ))}
+              </Stack>
+            )}
+            {showError && (
+              <Alert severity="error">
+                Error occured. Make sure you are running API locally!
+              </Alert>
+            )}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseTaskModal} color="primary">
+            {t("Cancel")}
           </Button>
         </DialogActions>
       </Dialog>

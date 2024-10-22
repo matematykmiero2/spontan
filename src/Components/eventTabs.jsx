@@ -123,7 +123,11 @@ const BasicTabs = ({ id, event }) => {
           </div>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <Kanban eventId={id} />
+          <Kanban
+            eventId={id}
+            eventDescription={event.description}
+            eventName={event.name}
+          />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
           <TextField
