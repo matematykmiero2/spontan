@@ -164,7 +164,7 @@ const RecipeReviewCard = ({
       </Card>
       <ShareModal
         name={name}
-        link={`${window.location.href}/${id}`}
+        link={`${window.location.href}`}
         isOpen={isOpen}
         close={() => setIsOpen(false)}
       />
