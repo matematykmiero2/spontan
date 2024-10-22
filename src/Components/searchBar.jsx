@@ -59,6 +59,7 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
         <input
           className="search-input"
           placeholder={t("Search...")}
+          onChange={onSearch}
           ref={inputRef}
         />
         <IconButton color="primary" onClick={onSearch}>
@@ -76,7 +77,6 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
       >
         <DialogTitle>{t("Filter Options")}</DialogTitle>
         <DialogContent>
-          {/* Data początkowa */}
           <TextField
             label={t("Start Date")}
             type="date"
@@ -88,7 +88,7 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
               shrink: true,
             }}
           />
-          {/* Data końcowa */}
+
           <TextField
             label={t("End Date")}
             type="date"
@@ -100,7 +100,7 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
               shrink: true,
             }}
           />
-          {/* Wybór kategorii */}
+
           <FormControl fullWidth margin="normal">
             <Multiselect
               categories={categories}

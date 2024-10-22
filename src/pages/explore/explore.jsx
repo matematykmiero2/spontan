@@ -22,7 +22,7 @@ const MapComponent = ({ userLocation }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(userLocation);
+    map.setView(userLocation || [51.1086, 17.0309]);
   }, [userLocation, map]);
 };
 
@@ -55,8 +55,9 @@ const groupEventsByLocation = (events) => {
 
 const Map = () => {
   const navigate = useNavigate();
-  const [userLocation, setUserLocation] = useState([51.1086, 17.0309]);
+  const [userLocation, setUserLocation] = useState();
   const [events, setEvents] = useState([]);
+
   const [bounds, setBounds] = useState({
     neLat: 51.157923237343425,
     neLng: 17.066230773925785,
@@ -68,22 +69,46 @@ const Map = () => {
     const map = useMap();
 
     useMapEvents({
-      moveend: () => {
+      moveend: async () => {
         const zoom = map.getZoom();
-        const bounds = map.getBounds();
-        const northEast = bounds.getNorthEast();
-        const southWest = bounds.getSouthWest();
+        const mapBounds = map.getBounds();
+        const northEast = mapBounds.getNorthEast();
+        const southWest = mapBounds.getSouthWest();
         console.log(zoom);
-        setBounds({
-          neLat: northEast.lat,
-          neLng: northEast.lng,
-          swLat: southWest.lat,
-          swLng: southWest.lng,
-        });
+
+        const increaseBoundsByHalfKilometer = (northEast, southWest) => {
+          const KM_TO_DEGREES_LAT = 1 / 111.32;
+          const KM_TO_DEGREES_LNG =
+            1 / (111.32 * Math.cos((northEast.lat * Math.PI) / 180));
+
+          const additionalLat = 0.5 * KM_TO_DEGREES_LAT;
+          const additionalLng = 0.5 * KM_TO_DEGREES_LNG;
+
+          const newNorthEast = {
+            lat: northEast.lat + additionalLat,
+            lng: northEast.lng + additionalLng,
+          };
+          const newSouthWest = {
+            lat: southWest.lat - additionalLat,
+            lng: southWest.lng - additionalLng,
+          };
+
+          return {
+            neLat: newNorthEast.lat,
+            neLng: newNorthEast.lng,
+            swLat: newSouthWest.lat,
+            swLng: newSouthWest.lng,
+          };
+        };
+
+        const bounds = increaseBoundsByHalfKilometer(northEast, southWest);
+        setBounds(bounds);
+
         if (zoom > 12) {
-          setShowSearchIcon(true);
-        } else {
           setShowSearchIcon(false);
+          setEvents(await getEventsForMap(bounds));
+        } else {
+          setShowSearchIcon(true);
         }
 
         if (zoom < 8) {
@@ -94,6 +119,7 @@ const Map = () => {
 
     return null;
   };
+
   useEffect(() => {
     const fetchEvents = async () => {
       const response = await getEventsForMap(bounds);
@@ -122,18 +148,42 @@ const Map = () => {
         onClick={getUserLocation}
       />
       {showSearchIcon && (
-        <SearchIcon
-          sx={{ fontSize: 40, left: "50%", cursor: "pointer" }}
-          id="mapButton"
-          onClick={async () => setEvents(await getEventsForMap(bounds))}
-        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "6vh",
+            right: "1vh",
+            padding: "10px",
+            zIndex: 10000,
+            backgroundColor: "rgba(255, 255, 255, 0.6)",
+            borderRadius: "10px",
+            border: "1px solid rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+            transform: "translateX(-50%)",
+            left: "50%",
+            fontWeight: "bold",
+            fontSize: "16px",
+            color: "#333",
+          }}
+          id="mapMessage"
+        >
+          Zoom in to search in this area
+        </div>
       )}
-      <MapContainer center={userLocation} zoom={13} maxZoom={18} minZoom={8}>
+
+      <MapContainer
+        center={[51.1086, 17.0309]}
+        zoom={13}
+        maxZoom={18}
+        minZoom={8}
+      >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={userLocation} icon={homeIcon}></Marker>
+        {userLocation && (
+          <Marker position={userLocation} icon={homeIcon}></Marker>
+        )}
         {groupedEvents.map(({ lat, lng, events }) => (
           <Marker key={`${lat}-${lng}`} position={[lat, lng]} icon={eventIcon}>
             <Popup>

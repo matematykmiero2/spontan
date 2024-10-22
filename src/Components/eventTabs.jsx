@@ -9,6 +9,7 @@ import Card from "./eventPageTile";
 import Chat from "./chat";
 import Kanban from "./kanban";
 import { useTranslation } from "react-i18next";
+import TextField from "@mui/material/TextField";
 import {
   getUserInvitations,
   getUserFriends,
@@ -16,6 +17,7 @@ import {
   deleteFriend,
   getUserSendInvitations,
   deleteFriendInvitation,
+  getUserID,
 } from "../functions";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItem from "@mui/material/ListItem";
@@ -52,11 +54,32 @@ function a11yProps(index) {
 
 const BasicTabs = ({ id, event }) => {
   const [value, setValue] = React.useState(0);
+  const user_id = getUserID();
   const { t } = useTranslation();
+  const [searchQuery, setSearchQuery] = useState("");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const filteredParticipants = event?.participants_list?.filter((participant) =>
+    participant.nickname.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
+  function renderParticipant(props) {
+    const { index, style, data } = props;
+    const participant = data[index];
+
+    return (
+      <ListItemButton style={style} key={participant.user_id}>
+        <ListItemText primary={`${participant.nickname}`} />
+        {(participant?.user_id === user_id ||
+          user_id === event?.organizer_id) && (
+          <Button color="error" onClick={async () => {}}>
+            {t("Remove")}
+          </Button>
+        )}
+      </ListItemButton>
+    );
+  }
   return (
     <div>
       <Box sx={{ width: "100%" }}>
@@ -69,6 +92,7 @@ const BasicTabs = ({ id, event }) => {
             <Tab label={t("Info")} {...a11yProps(0)} />
             <Tab label={t("Chat")} {...a11yProps(1)} />
             <Tab label={t("Kanban")} {...a11yProps(2)} />
+            <Tab label={t("Participants")} {...a11yProps(3)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
@@ -100,6 +124,30 @@ const BasicTabs = ({ id, event }) => {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <Kanban eventId={id} />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3}>
+          <TextField
+            label={t("Search Participants")}
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {filteredParticipants && filteredParticipants.length > 0 ? (
+            <FixedSizeList
+              height={200}
+              width={360}
+              itemSize={46}
+              itemCount={filteredParticipants.length}
+              itemData={filteredParticipants}
+              overscanCount={5}
+            >
+              {renderParticipant}
+            </FixedSizeList>
+          ) : (
+            <p>{t("No participants found")}</p>
+          )}
         </CustomTabPanel>
       </Box>
     </div>

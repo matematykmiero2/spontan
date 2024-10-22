@@ -99,7 +99,6 @@ function App() {
             <Route path="/event/:id" element={<EventPage />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/eventInvitations" element={<EventInvitations />} />
-            <Route path="/private/:id" element={<Private />} />
             <Route path="/manageEvents" element={<Manage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </>

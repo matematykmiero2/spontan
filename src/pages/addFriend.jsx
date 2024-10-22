@@ -5,12 +5,14 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import { Button, Chip, Stack, TextField } from "@mui/material";
 import { getInviteLink, sendFriendInvitation } from "../functions";
 import { useTranslation } from "react-i18next";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 const Friends = () => {
   const { t } = useTranslation();
   const [showQR, setShowQR] = useState(true);
   const [code, setCode] = useState(null);
   const [link, setLink] = useState("noLink");
   const [text, setText] = useState("");
+  const [copied, setCopied] = useState(false);
   useEffect(() => {
     async function getLink() {
       setLink(await getInviteLink());
@@ -30,7 +32,7 @@ const Friends = () => {
         <div
           style={{
             width: "100%",
-            paddingBottom: "1px",
+            paddingBottom: "10px",
             display: "flex",
             justifyContent: "center",
           }}
@@ -41,13 +43,39 @@ const Friends = () => {
         </div>
         {showQR ? (
           <>
-            <QRCode
-              size={256}
-              style={{ height: "100%", width: "100%" }}
-              value={link}
-              viewBox={`0 0 256 256`}
-            />
-            <div>{`${t("Your Link")} : ${link}`}</div>
+            <div style={{ padding: "10px" }}>
+              <QRCode
+                size={256}
+                style={{ height: "100%", width: "100%" }}
+                value={link}
+                viewBox={`0 0 256 256`}
+              />
+
+              <CopyToClipboard text={link} onCopy={() => setCopied(true)}>
+                <div
+                  style={{
+                    paddingBlockStart: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {`${t("Copy Link")}:\n${link}`}{" "}
+                  </Button>
+                  {copied && (
+                    <p style={{ color: "green" }}>
+                      {t("Link copied to clipboard!")}
+                    </p>
+                  )}
+                </div>
+              </CopyToClipboard>
+            </div>
           </>
         ) : (
           <>

@@ -464,7 +464,7 @@ export async function getUserEvents() {
       user_id: id,
     });
     if (error) console.error(error);
-    data = parseDate(data);
+
     console.log(data);
     return data;
   }
