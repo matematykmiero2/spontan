@@ -32,17 +32,34 @@ export async function generateTasks(name, description) {
   }
 }
 
-export async function filterEvents(categories, startdate, enddate) {
-  console.log(categories, startdate, enddate);
-  let { data, error } = await supabase.rpc("getfilteredevents", {
-    categories: categories && categories.length > 0 ? categories : null,
-    enddate: enddate !== "" ? enddate : undefined,
-    startdate: startdate !== "" ? startdate : undefined,
-  });
-  if (error) console.error(error);
-  else {
-    console.log(data);
-    return data;
+export async function filterEvents(categories, startdate, enddate, bounds) {
+  console.log(categories, startdate, enddate, bounds);
+  if (bounds) {
+    let { data, error } = await supabase.rpc("get_filtered_events_bounds", {
+      north: bounds.north,
+      south: bounds.south,
+      east: bounds.east,
+      west: bounds.west,
+      categories: categories && categories.length > 0 ? categories : null,
+      enddate: startdate !== "" ? startdate : null,
+      startdate: enddate !== "" ? enddate : null,
+    });
+    if (error) console.error(error);
+    else {
+      console.log(data);
+      return data;
+    }
+  } else {
+    let { data, error } = await supabase.rpc("getfilteredevents", {
+      categories: categories && categories.length > 0 ? categories : null,
+      enddate: enddate !== "" ? enddate : undefined,
+      startdate: startdate !== "" ? startdate : undefined,
+    });
+    if (error) console.error(error);
+    else {
+      console.log(data);
+      return data;
+    }
   }
 }
 
@@ -344,8 +361,14 @@ export async function changeTaskStatus(taskId, newStatus) {
   else console.log(data);
 }
 
-export async function assignToTask(eventId) {
-  const id = getUserID();
+export async function assignToTask(eventId, assignee) {
+  let id;
+
+  if (assignee) {
+    id = assignee;
+  } else {
+    id = getUserID();
+  }
   let { data, error } = await supabase.rpc("assign_task", {
     p_assignee: id,
     p_task_id: eventId,
@@ -667,13 +690,40 @@ export async function getUserFriends() {
   return "Error";
 }
 
-export async function getEventsForMap(bounds) {
-  console.log("bounds", bounds);
-  let { data, error } = await supabase.rpc("get_events_in_bounds", {
+export async function getEventsForMap(bounds, time) {
+  console.log("bounds", bounds, time);
+  if (!time) {
+    let { data, error } = await supabase.rpc("get_events_in_bounds", {
+      ne_lat: bounds && bounds.ne_lat ? bounds.ne_lat : 51.157923237343425,
+      ne_lng: bounds && bounds.neLng ? bounds.neLng : 17.066230773925785,
+      sw_lat: bounds && bounds.swLat ? bounds.swLat : 51.05930741068962,
+      sw_lng: bounds && bounds.swLng ? bounds.swLng : 16.995506286621097,
+    });
+    if (error) console.error(error);
+    else console.log(data);
+    return data;
+  }
+
+  let startDate;
+  const today = new Date();
+  today.setHours(23, 59, 59, 0);
+
+  if (time === "today") {
+    const tommorow = new Date(today);
+    tommorow.setDate(today.getDate() + 1);
+    startDate = tommorow.toISOString();
+  } else {
+    const next7Days = new Date(today);
+    next7Days.setDate(today.getDate() + 7);
+    startDate = next7Days.toISOString();
+  }
+  console.log("startdate", startDate);
+  let { data, error } = await supabase.rpc("get_events_in_bounds_time", {
     ne_lat: bounds && bounds.ne_lat ? bounds.ne_lat : 51.157923237343425,
     ne_lng: bounds && bounds.neLng ? bounds.neLng : 17.066230773925785,
     sw_lat: bounds && bounds.swLat ? bounds.swLat : 51.05930741068962,
     sw_lng: bounds && bounds.swLng ? bounds.swLng : 16.995506286621097,
+    start_date: startDate,
   });
   if (error) console.error(error);
   else console.log(data);

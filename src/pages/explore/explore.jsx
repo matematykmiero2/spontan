@@ -17,7 +17,7 @@ import HomeSharpIcon from "@mui/icons-material/HomeSharp";
 import eventTile from "../../Components/eventTile";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-
+import Stack from "@mui/material/Stack";
 const MapComponent = ({ userLocation }) => {
   const map = useMap();
 
@@ -57,6 +57,7 @@ const Map = () => {
   const navigate = useNavigate();
   const [userLocation, setUserLocation] = useState();
   const [events, setEvents] = useState([]);
+  const [time, setTime] = useState();
 
   const [bounds, setBounds] = useState({
     neLat: 51.157923237343425,
@@ -106,7 +107,7 @@ const Map = () => {
 
         if (zoom > 12) {
           setShowSearchIcon(false);
-          setEvents(await getEventsForMap(bounds));
+          setEvents(await getEventsForMap(bounds, time));
         } else {
           setShowSearchIcon(true);
         }
@@ -147,6 +148,7 @@ const Map = () => {
         id="mapButton"
         onClick={getUserLocation}
       />
+
       {showSearchIcon && (
         <div
           style={{
@@ -170,6 +172,45 @@ const Map = () => {
           Zoom in to search in this area
         </div>
       )}
+
+      <div
+        style={{
+          position: "absolute",
+          top: "1vh",
+          right: "1vw",
+          padding: "10px",
+          zIndex: 10000,
+          backgroundColor: "rgba(255, 255, 255, 0.6)",
+          borderRadius: "10px",
+          border: "1px solid rgba(0, 0, 0, 0.1)",
+          textAlign: "center",
+
+          fontWeight: "bold",
+          fontSize: "16px",
+          color: "#333",
+        }}
+      >
+        <Stack direction="row">
+          <Button
+            variant={!time ? `contained` : `text`}
+            onClick={() => setTime()}
+          >
+            All
+          </Button>
+          <Button
+            variant={time === "today" ? `contained` : `text`}
+            onClick={() => setTime("today")}
+          >
+            Today
+          </Button>
+          <Button
+            variant={time === "week" ? `contained` : `text`}
+            onClick={() => setTime("week")}
+          >
+            In 7 days
+          </Button>
+        </Stack>
+      </div>
 
       <MapContainer
         center={[51.1086, 17.0309]}

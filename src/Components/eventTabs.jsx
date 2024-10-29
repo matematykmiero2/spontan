@@ -127,6 +127,7 @@ const BasicTabs = ({ id, event }) => {
             eventId={id}
             eventDescription={event.description}
             eventName={event.name}
+            asignees={event?.participants_list}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>

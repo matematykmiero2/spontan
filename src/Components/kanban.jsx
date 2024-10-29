@@ -51,7 +51,7 @@ function a11yProps(index) {
   };
 }
 
-const BasicTabs = ({ eventId, eventDescription, eventName }) => {
+const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(0);
   const [tasks, setTasks] = useState([]);
@@ -77,8 +77,8 @@ const BasicTabs = ({ eventId, eventDescription, eventName }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleAssign = async (taskId) => {
-    await assignToTask(taskId);
+  const handleAssign = async (taskId, assignee) => {
+    await assignToTask(taskId, assignee);
     await fetchTasks(eventId);
   };
 
@@ -158,6 +158,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName }) => {
           onAssign={handleAssign}
           onMove={handleMove}
           tasks={tasks.filter((task) => task.status === "TODO")}
+          asignees={asignees}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
@@ -165,6 +166,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName }) => {
           onAssign={handleAssign}
           onMove={handleMove}
           tasks={tasks.filter((task) => task.status === "In progress")}
+          asignees={asignees}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
@@ -172,6 +174,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName }) => {
           onAssign={handleAssign}
           onMove={handleMove}
           tasks={tasks.filter((task) => task.status === "Done")}
+          asignees={asignees}
         />
       </CustomTabPanel>
 

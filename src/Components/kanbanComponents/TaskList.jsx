@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TaskCard from "./TaskCard"; // Zakładam, że TaskCard jest komponentem do wyświetlania pojedynczego zadania
+import TaskCard from "./TaskCard";
 import { Box, Typography } from "@mui/material";
 
-const TaskList = ({ tasks, onAssign, onMove }) => {
+const TaskList = ({ tasks, onAssign, onMove, asignees }) => {
   if (tasks.length === 0) {
     return (
       <Typography variant="h6" color="textSecondary">
@@ -23,8 +23,9 @@ const TaskList = ({ tasks, onAssign, onMove }) => {
           date={task.date}
           reporter={task.reporter}
           assignee={task.assignee_nickname}
-          onAssign={() => onAssign(task.id)}
+          onAssign={(selectedAssignee) => onAssign(task.id, selectedAssignee)}
           onMove={(newStatus) => onMove(task.id, newStatus)}
+          assignees={asignees}
         />
       ))}
     </Box>

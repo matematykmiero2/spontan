@@ -18,6 +18,8 @@ import {
   TextField,
   FormControl,
   InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { getAllCategories, filterEvents } from "../functions";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -30,6 +32,8 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [radius, setRadius] = useState("");
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -37,6 +41,17 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
       setCategories(categories);
     }
     fetchCategories();
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
   }, []);
 
   const handleOpenModal = () => {
@@ -48,8 +63,31 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
   };
 
   const handleApplyFilters = async () => {
-    setEvents(await filterEvents(selectedCategories, startDate, endDate));
+    let bounds;
+    if (radius) {
+      if (userLocation) {
+        const lat = userLocation.lat;
+        const lng = userLocation.lng;
 
+        const latOffset = 0.009;
+        const lngOffset = 0.009;
+
+        bounds = {
+          north: lat + latOffset * radius,
+          south: lat - latOffset * radius,
+          east: lng + lngOffset * radius,
+          west: lng - lngOffset * radius,
+        };
+      } else {
+        console.log("User location is not available.");
+      }
+    } else {
+      bounds = undefined;
+    }
+
+    setEvents(
+      await filterEvents(selectedCategories, startDate, endDate, bounds)
+    );
     handleCloseModal();
   };
 
@@ -62,9 +100,7 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
           onChange={onSearch}
           ref={inputRef}
         />
-        <IconButton color="primary" onClick={onSearch}>
-          <SearchIcon />
-        </IconButton>
+
         <IconButton color="primary" onClick={handleOpenModal}>
           <TuneIcon />
         </IconButton>
@@ -107,6 +143,18 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
               selectedCategories={selectedCategories}
               selectCategory={setSelectedCategories}
             />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel>{t("Search Radius (km)")}</InputLabel>
+            <Select value={radius} onChange={(e) => setRadius(e.target.value)}>
+              <MenuItem value="">
+                <em>{t("None")}</em>
+              </MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+            </Select>
           </FormControl>
         </DialogContent>
         <DialogActions>

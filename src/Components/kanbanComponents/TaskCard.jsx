@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import {
@@ -11,6 +11,9 @@ import {
   Button,
   Menu,
   MenuItem,
+  InputLabel,
+  FormControl,
+  Select,
 } from "@mui/material";
 
 const TaskCard = ({
@@ -20,11 +23,19 @@ const TaskCard = ({
   date,
   reporter,
   assignee,
+  assignees,
   onAssign,
   onMove,
 }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedAssignee, setSelectedAssignee] = useState("");
   const { t } = useTranslation();
+
+  const handleAssignChange = (event) => {
+    setSelectedAssignee(event.target.value);
+
+    onAssign(event.target.value);
+  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -71,7 +82,24 @@ const TaskCard = ({
             {new Date(date).toLocaleDateString()}
           </Typography>
         </Stack>
-        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <Stack spacing={2} sx={{ mt: 2 }}>
+          {assignee === "Unassigned" && (
+            <FormControl variant="outlined">
+              <InputLabel>{t("Assign to")}</InputLabel>
+              <Select
+                value={selectedAssignee}
+                onChange={handleAssignChange}
+                label={t("Assign to")}
+              >
+                {assignees &&
+                  assignees.map((user) => (
+                    <MenuItem key={user} value={user.user_id}>
+                      {user.nickname}
+                    </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
+          )}
           {assignee === "Unassigned" && (
             <Button variant="outlined" size="small" onClick={() => onAssign()}>
               {t("Assign")}
