@@ -83,6 +83,7 @@ i18next.use(initReactI18next).init({
         "Add Location": "Add Location",
         "Login failed": "Login failed",
         "Email Address": "Email Address",
+        "Change preferred categories": "Change preferred categories",
         Password: "Password",
         "Sign in": "Sign in",
         "Create account": "Create account",
@@ -434,6 +435,7 @@ i18next.use(initReactI18next).init({
         Indoor: "В приміщенні",
         Book: "Книга",
         Dance: "Танці",
+        "Change preferred categories": "Змінити вподобані категорії",
       },
     },
     cs: {
