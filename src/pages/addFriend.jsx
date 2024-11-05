@@ -88,7 +88,7 @@ const Friends = () => {
                 justifyContent: "center",
               }}
             >
-              {code != null && (
+              {code != null ? (
                 <>
                   <Stack spacing={1}>
                     <Chip label={code} />
@@ -97,20 +97,21 @@ const Friends = () => {
                     </Button>
                   </Stack>
                 </>
+              ) : (
+                <Stack>
+                  <div style={{ margin: "30px" }}>
+                    <TextField
+                      label={t("Insert friend invite Link")}
+                      onChange={(event) => {
+                        setText(event.target.value);
+                      }}
+                    ></TextField>
+                  </div>
+                  <Button onClick={sendInviteLink} variant="contained">
+                    {t("Send invitation for that link")}
+                  </Button>
+                </Stack>
               )}
-              <Stack>
-                <div style={{ margin: "30px" }}>
-                  <TextField
-                    label={t("Insert friend invite Link")}
-                    onChange={(event) => {
-                      setText(event.target.value);
-                    }}
-                  ></TextField>
-                </div>
-                <Button onClick={sendInviteLink} variant="contained">
-                  {t("Send invitation for that link")}
-                </Button>
-              </Stack>
             </div>
           </>
         )}

@@ -60,7 +60,7 @@ const Chat = ({ eventId, name }) => {
     }
   }, [messages]);
   return (
-    <div className="chat-container">
+    <div className="chat-container" style={{ height: "80vh" }}>
       <div className="chat-group">
         <p className="chat-title">{name}</p>
         <div className="message-list" ref={messageListRef}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getUserEvents } from "../functions";
-import EventList from "../Components/list"; // Note: This import is unused
+import EventList from "../Components/list";
 import Button from "@mui/material/Button";
 import "../Components/components.css";
 import { useTranslation } from "react-i18next";
