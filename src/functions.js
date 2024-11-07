@@ -195,6 +195,18 @@ export async function updateUserCategories(categories) {
   else console.log(data);
 }
 
+export async function getUserCategories() {
+  const id = getUserID();
+  let { data, error } = await supabase.rpc("get_user_categories", {
+    p_user_id: id,
+  });
+  if (error) console.error(error);
+  else {
+    console.log(data);
+    return data;
+  }
+}
+
 export async function getUserSettings() {
   const id = getUserID();
 

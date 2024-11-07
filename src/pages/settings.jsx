@@ -43,6 +43,7 @@ const Register = () => {
   };
 
   const handleNickname = async () => {
+    console.log(nickname);
     if (nickname.length > 2) {
       await updateNickname(nickname);
     }
@@ -72,6 +73,9 @@ const Register = () => {
         const language = settings[0].language;
         if (language) {
           setLanguage(language);
+        }
+        if (settings[0].nickname) {
+          setNickname(settings[0].nickname);
         }
       }
     }
@@ -152,7 +156,7 @@ const Register = () => {
                 margin="dense"
                 required
                 fullWidth
-                value={settings.nickname}
+                value={nickname}
                 id="nickname"
                 label={t("Change nickname")}
                 name="nickname"
