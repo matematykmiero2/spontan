@@ -35,12 +35,12 @@ const Chat = ({ eventId, name }) => {
           event: "INSERT",
           schema: "public",
           table: "messages",
+          filter: `event_id=eq.${eventId}`,
         },
         async (payload) => {
-          //console.log(payload);
-          if (payload.new.event_id === eventId) {
-            setMessages(await getMessagesForEvent(eventId));
-          }
+          console.log(payload);
+
+          setMessages((prevMessages) => [...prevMessages, payload.new]);
         }
       )
       .subscribe();
@@ -60,7 +60,7 @@ const Chat = ({ eventId, name }) => {
     }
   }, [messages]);
   return (
-    <div className="chat-container" style={{ height: "80vh" }}>
+    <div className="chat-container">
       <div className="chat-group">
         <p className="chat-title">{name}</p>
         <div className="message-list" ref={messageListRef}>

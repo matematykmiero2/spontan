@@ -105,14 +105,21 @@ const RecipeReviewCard = ({
   id,
   unsigned,
   refresh,
+  isPC,
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div style={{ padding: "10px" }}>
-      <Card sx={{ width: 345 }}>
+      <Card sx={{ width: isPC ? "90vw" : 345 }}>
         <CardHeader title={name} subheader={date} />
-        <CardMedia component="img" height="194" image={photo} alt="alt" />
+        <CardMedia
+          component="img"
+          height={isPC ? "300px" : 194}
+          image={photo}
+          alt="alt"
+          sx={{ objectFit: "contain" }}
+        />
         <CardContent>
           {categories && (
             <div className="categories">

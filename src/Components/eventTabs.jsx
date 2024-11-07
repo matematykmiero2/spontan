@@ -22,6 +22,7 @@ import {
   getUserID,
 } from "../functions";
 import ListItemButton from "@mui/material/ListItemButton";
+import { useMediaQuery } from "@react-hook/media-query";
 import ListItem from "@mui/material/ListItem";
 import { Button, Chip, Stack } from "@mui/material";
 
@@ -55,6 +56,7 @@ function a11yProps(index) {
 }
 
 const BasicTabs = ({ id, event, refresh }) => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
   const user_id = getUserID();
@@ -97,6 +99,7 @@ const BasicTabs = ({ id, event, refresh }) => {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
+            fullWidth
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
@@ -107,7 +110,7 @@ const BasicTabs = ({ id, event, refresh }) => {
             <Tab label={t("Participants")} {...a11yProps(3)} />
           </Tabs>
         </Box>
-        <CustomTabPanel value={value} index={0}>
+        <CustomTabPanel fullWidth value={value} index={0}>
           <div style={{ paddingBlockEnd: "10%" }}>
             {event !== null ? (
               <Card
@@ -123,18 +126,19 @@ const BasicTabs = ({ id, event, refresh }) => {
                 duration={event.duration}
                 categories={event.categories}
                 id={id}
+                isPC={!isMobile}
               />
             ) : (
               <p>{t("Loading ...")}</p>
             )}
           </div>
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
+        <CustomTabPanel fullWidth value={value} index={1}>
           <div style={{ alignContent: "center", paddingBlockEnd: "10%" }}>
             {event !== null && <Chat eventId={id} name={event.name}></Chat>}
           </div>
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
+        <CustomTabPanel fullWidth value={value} index={2}>
           <Kanban
             eventId={id}
             eventDescription={event.description}
@@ -144,28 +148,35 @@ const BasicTabs = ({ id, event, refresh }) => {
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-          <TextField
-            label={t("Search Participants")}
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          {filteredParticipants && filteredParticipants.length > 0 ? (
-            <FixedSizeList
-              height={200}
-              width={360}
-              itemSize={46}
-              itemCount={filteredParticipants.length}
-              itemData={filteredParticipants}
-              overscanCount={5}
-            >
-              {renderParticipant}
-            </FixedSizeList>
-          ) : (
-            <p>{t("No participants found")}</p>
-          )}
+          <div
+            className="chat-container"
+            style={{ padding: isMobile ? "5px" : "10px" }}
+          >
+            <Stack>
+              <TextField
+                label={t("Search Participants")}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {filteredParticipants && filteredParticipants.length > 0 ? (
+                <FixedSizeList
+                  height={200}
+                  width={360}
+                  itemSize={46}
+                  itemCount={filteredParticipants.length}
+                  itemData={filteredParticipants}
+                  overscanCount={5}
+                >
+                  {renderParticipant}
+                </FixedSizeList>
+              ) : (
+                <p>{t("No participants found")}</p>
+              )}
+            </Stack>
+          </div>
         </CustomTabPanel>
       </Box>
     </div>
