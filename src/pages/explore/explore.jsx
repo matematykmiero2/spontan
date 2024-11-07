@@ -18,6 +18,8 @@ import eventTile from "../../Components/eventTile";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import Stack from "@mui/material/Stack";
+import { useTranslation } from "react-i18next";
+
 const MapComponent = ({ userLocation }) => {
   const map = useMap();
 
@@ -58,7 +60,7 @@ const Map = () => {
   const [userLocation, setUserLocation] = useState();
   const [events, setEvents] = useState([]);
   const [time, setTime] = useState();
-
+  const { t } = useTranslation();
   const [bounds, setBounds] = useState({
     neLat: 51.157923237343425,
     neLng: 17.066230773925785,
@@ -75,7 +77,7 @@ const Map = () => {
         const mapBounds = map.getBounds();
         const northEast = mapBounds.getNorthEast();
         const southWest = mapBounds.getSouthWest();
-        console.log(zoom);
+        //console.log(zoom);
 
         const increaseBoundsByHalfKilometer = (northEast, southWest) => {
           const KM_TO_DEGREES_LAT = 1 / 111.32;
@@ -169,7 +171,7 @@ const Map = () => {
           }}
           id="mapMessage"
         >
-          Zoom in to search in this area
+          {t("Zoom in to search in this area")}
         </div>
       )}
 
@@ -195,19 +197,19 @@ const Map = () => {
             variant={!time ? `contained` : `text`}
             onClick={() => setTime()}
           >
-            All
+            {t("All")}
           </Button>
           <Button
             variant={time === "today" ? `contained` : `text`}
             onClick={() => setTime("today")}
           >
-            Today
+            {t("Today")}
           </Button>
           <Button
             variant={time === "week" ? `contained` : `text`}
             onClick={() => setTime("week")}
           >
-            In 7 days
+            {t("In 7 days")}
           </Button>
         </Stack>
       </div>

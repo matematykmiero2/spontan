@@ -37,7 +37,7 @@ const Chat = ({ eventId, name }) => {
           table: "messages",
         },
         async (payload) => {
-          console.log(payload);
+          //console.log(payload);
           if (payload.new.event_id === eventId) {
             setMessages(await getMessagesForEvent(eventId));
           }
@@ -55,7 +55,7 @@ const Chat = ({ eventId, name }) => {
   };
   useEffect(() => {
     if (messageListRef.current) {
-      console.log("new");
+      //console.log("new");
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
   }, [messages]);

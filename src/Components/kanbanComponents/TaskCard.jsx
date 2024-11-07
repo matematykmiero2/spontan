@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
+import "../../resources/i18n";
 import {
   Card as MuiCard,
   CardContent,
@@ -26,6 +27,7 @@ const TaskCard = ({
   assignees,
   onAssign,
   onMove,
+  isOrganizer,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedAssignee, setSelectedAssignee] = useState("");
@@ -75,7 +77,7 @@ const TaskCard = ({
           <Stack direction="row" spacing={2}>
             <Typography variant="caption">
               {" "}
-              {t("Assignee:")} {assignee}
+              {t("sAssignee")} {assignee}
             </Typography>
           </Stack>
           <Typography variant="caption">
@@ -83,7 +85,7 @@ const TaskCard = ({
           </Typography>
         </Stack>
         <Stack spacing={2} sx={{ mt: 2 }}>
-          {assignee === "Unassigned" && (
+          {assignee === "Unassigned" && isOrganizer && (
             <FormControl variant="outlined">
               <InputLabel>{t("Assign to")}</InputLabel>
               <Select

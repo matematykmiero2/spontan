@@ -11,6 +11,7 @@ const Login = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
 
   const login = async () => {
@@ -18,7 +19,7 @@ const Login = () => {
     if (logged) {
       window.location.reload();
     } else {
-      console.error(t("Login failed"));
+      setError(true);
     }
   };
 
@@ -28,6 +29,7 @@ const Login = () => {
         <img src={fullLogo} alt="Logo" className="LoginLogo" />
         <div className="box">
           <TextField
+            error={error}
             margin="normal"
             required
             fullWidth
@@ -37,10 +39,13 @@ const Login = () => {
             autoComplete="email"
             autoFocus
             onChange={(event) => {
+              setError(false);
               setEmail(event.target.value);
             }}
+            helperText={error && t("Incoorect login or password")}
           />
           <TextField
+            error={error}
             margin="normal"
             required
             fullWidth
@@ -50,8 +55,10 @@ const Login = () => {
             id="password"
             autoComplete="current-password"
             onChange={(event) => {
+              setError(false);
               setPassword(event.target.value);
             }}
+            helperText={error && t("Incoorect login or password")}
           />
           <Button
             onClick={login}

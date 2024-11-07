@@ -8,6 +8,7 @@ import { FixedSizeList } from "react-window";
 import Card from "./eventPageTile";
 import Chat from "./chat";
 import Kanban from "./kanban";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import TextField from "@mui/material/TextField";
 import {
@@ -17,6 +18,7 @@ import {
   deleteFriend,
   getUserSendInvitations,
   deleteFriendInvitation,
+  deleteUserEvent,
   getUserID,
 } from "../functions";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -52,7 +54,8 @@ function a11yProps(index) {
   };
 }
 
-const BasicTabs = ({ id, event }) => {
+const BasicTabs = ({ id, event, refresh }) => {
+  const navigate = useNavigate();
   const [value, setValue] = React.useState(0);
   const user_id = getUserID();
   const { t } = useTranslation();
@@ -73,7 +76,16 @@ const BasicTabs = ({ id, event }) => {
         <ListItemText primary={`${participant.nickname}`} />
         {(participant?.user_id === user_id ||
           user_id === event?.organizer_id) && (
-          <Button color="error" onClick={async () => {}}>
+          <Button
+            color="error"
+            onClick={async () => {
+              await deleteUserEvent(id, participant?.user_id);
+              refresh();
+              if (event?.organizer_id !== user_id) {
+                navigate(`/`);
+              }
+            }}
+          >
             {t("Remove")}
           </Button>
         )}
@@ -128,6 +140,7 @@ const BasicTabs = ({ id, event }) => {
             eventDescription={event.description}
             eventName={event.name}
             asignees={event?.participants_list}
+            isOrganizer={user_id === event?.organizer_id}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>

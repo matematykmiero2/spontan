@@ -44,6 +44,12 @@ const EventPage = () => {
       isMounted = false;
     };
   }
+
+  const refresh = async () => {
+    await fetchAndParseEvent();
+    await fetchEventData();
+  };
+
   useEffect(() => {
     fetchAndParseEvent();
   }, [id]);
@@ -55,7 +61,7 @@ const EventPage = () => {
       {(event && isAvailable) ||
       (event && event.organizer_id === getUserID()) ? (
         <div className={`eventPage ${isVisible ? "visible" : ""}`}>
-          <EventTabs id={id} event={event} />
+          <EventTabs id={id} event={event} refresh={refresh} />
         </div>
       ) : event &&
         isAvailable === false &&

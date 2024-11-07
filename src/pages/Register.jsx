@@ -27,6 +27,7 @@ const Register = () => {
     setEmail(value);
     setEmailError(!validateEmail(value));
   };
+
   const register = async () => {
     if (!emailError && email && password && name && surname && nickname) {
       await signUp(email, password, name, surname, nickname);
@@ -94,14 +95,16 @@ const Register = () => {
               margin="dense"
               required
               fullWidth
+              error={password.length > 0 && password.length < 6}
               name="password"
               label={t("Password")}
-              type="password"
-              id="password"
-              autoComplete="current-password"
               onChange={(event) => {
                 setPassword(event.target.value);
               }}
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              helperText={t("Password needs to be 6 characters long")}
             />
             <Button
               onClick={register}

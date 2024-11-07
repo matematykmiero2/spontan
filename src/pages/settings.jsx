@@ -64,10 +64,15 @@ const Register = () => {
       setCategories(categories);
       const settings = await getUserSettings();
       setSettings(settings[0]);
-      setSelectedCategories(settings[0].categories);
-      const language = settings[0].language;
-      if (language) {
-        setLanguage(language);
+      if (settings && settings[0]) {
+        if (settings[0].categories) {
+          setSelectedCategories(settings[0].categories);
+        }
+
+        const language = settings[0].language;
+        if (language) {
+          setLanguage(language);
+        }
       }
     }
     fetchLocations();

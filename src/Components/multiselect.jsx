@@ -33,7 +33,7 @@ export default function MultipleSelectCheckmarks({
   const { t } = useTranslation();
   return (
     <div>
-      <FormControl required fullWidth>
+      <FormControl required sx={{ width: 300 }}>
         <InputLabel id="demo-multiple-checkbox-label">
           {t("Categories")}
         </InputLabel>

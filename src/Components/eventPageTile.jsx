@@ -30,44 +30,47 @@ import {
 } from "react-share";
 
 const ShareModal = ({ link, name, isOpen, close }) => {
+  const { t } = useTranslation();
   return (
     <Dialog open={isOpen} onClose={close}>
-      <DialogTitle>Udostępnij</DialogTitle>
+      <DialogTitle>{t("Share")}</DialogTitle>
       <DialogContent>
-        <Stack spacing={2}>
-          <ShareButton
-            ShareComponent={FacebookShareButton}
-            icon={FacebookIcon}
-            title="Facebook"
-            url={link}
-            name={name}
-          />
-          <ShareButton
-            ShareComponent={TwitterShareButton}
-            icon={XIcon}
-            title="Twitter"
-            url={link}
-            name={name}
-          />
-          <ShareButton
-            ShareComponent={WhatsappShareButton}
-            icon={WhatsappIcon}
-            title="WhatsApp"
-            url={link}
-            name={name}
-          />
-          <ShareButton
-            ShareComponent={EmailShareButton}
-            icon={EmailIcon}
-            name={name}
-            title="Email"
-            url={link}
-          />
-        </Stack>
+        <div style={{ width: "70vw" }}>
+          <Stack spacing={2}>
+            <ShareButton
+              ShareComponent={FacebookShareButton}
+              icon={FacebookIcon}
+              title="Facebook"
+              url={link}
+              name={name}
+            />
+            <ShareButton
+              ShareComponent={TwitterShareButton}
+              icon={XIcon}
+              title="X"
+              url={link}
+              name={name}
+            />
+            <ShareButton
+              ShareComponent={WhatsappShareButton}
+              icon={WhatsappIcon}
+              title="WhatsApp"
+              url={link}
+              name={name}
+            />
+            <ShareButton
+              ShareComponent={EmailShareButton}
+              icon={EmailIcon}
+              name={name}
+              title="Email"
+              url={link}
+            />
+          </Stack>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button onClick={close} color="primary">
-          Zamknij
+          {t("Close")}
         </Button>
       </DialogActions>
     </Dialog>
@@ -157,7 +160,7 @@ const RecipeReviewCard = ({
                 await refresh();
               }}
             >
-              Sign in
+              {t("Sign in")}
             </Button>
           )}
         </CardActions>

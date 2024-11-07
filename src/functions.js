@@ -539,8 +539,14 @@ export async function setUserEvent(event_id) {
   }
 }
 
-export async function deleteUserEvent(event_id) {
-  const id = getUserID();
+export async function deleteUserEvent(event_id, user_id) {
+  let id;
+  if (user_id) {
+    id = user_id;
+  } else {
+    id = getUserID();
+  }
+
   if (id) {
     let { data, error } = await supabase.rpc("delete_user_event", {
       event_id_param: event_id,

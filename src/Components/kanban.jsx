@@ -51,7 +51,13 @@ function a11yProps(index) {
   };
 }
 
-const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
+const BasicTabs = ({
+  eventId,
+  eventDescription,
+  eventName,
+  asignees,
+  isOrganizer,
+}) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(0);
   const [tasks, setTasks] = useState([]);
@@ -104,7 +110,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
   };
 
   const handleSubmit = async () => {
-    console.log("ok");
+    // console.log("ok");
     await addTask(eventId, newTask);
     setNewTask({ summary: "", description: "" });
     handleCloseModal();
@@ -123,7 +129,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
     setSuggestedTasks([]);
     setGeneratingTasks(true);
     const tasks = await generateTasks(eventName, eventDescription);
-    console.log(tasks);
+    // console.log(tasks);
     if (tasks && tasks.length > 0) {
       setSuggestedTasks(tasks);
     } else {
@@ -159,6 +165,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
           onMove={handleMove}
           tasks={tasks.filter((task) => task.status === "TODO")}
           asignees={asignees}
+          isOrganizer={isOrganizer}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
@@ -167,6 +174,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
           onMove={handleMove}
           tasks={tasks.filter((task) => task.status === "In progress")}
           asignees={asignees}
+          isOrganizer={isOrganizer}
         />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
@@ -175,6 +183,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
           onMove={handleMove}
           tasks={tasks.filter((task) => task.status === "Done")}
           asignees={asignees}
+          isOrganizer={isOrganizer}
         />
       </CustomTabPanel>
 
@@ -220,8 +229,9 @@ const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
         <DialogContent>
           <Stack spacing={2}>
             <Alert severity="info">
-              This is an experimental feature. The API with the model must be
-              run locally.
+              {t(
+                "This is an experimental feature. The API with the model must be run locally."
+              )}
             </Alert>
             <Button
               onClick={handleGenerateTasks}
@@ -243,7 +253,7 @@ const BasicTabs = ({ eventId, eventDescription, eventName, asignees }) => {
             )}
             {showError && (
               <Alert severity="error">
-                Error occured. Make sure you are running API locally!
+                {t("Error occured. Make sure you are running API locally!")}
               </Alert>
             )}
           </Stack>

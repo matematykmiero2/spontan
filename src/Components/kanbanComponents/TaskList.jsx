@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import TaskCard from "./TaskCard";
 import { Box, Typography } from "@mui/material";
 
-const TaskList = ({ tasks, onAssign, onMove, asignees }) => {
+const TaskList = ({ tasks, onAssign, onMove, asignees, isOrganizer }) => {
   if (tasks.length === 0) {
     return (
       <Typography variant="h6" color="textSecondary">
@@ -26,6 +26,7 @@ const TaskList = ({ tasks, onAssign, onMove, asignees }) => {
           onAssign={(selectedAssignee) => onAssign(task.id, selectedAssignee)}
           onMove={(newStatus) => onMove(task.id, newStatus)}
           assignees={asignees}
+          isOrganizer={isOrganizer}
         />
       ))}
     </Box>

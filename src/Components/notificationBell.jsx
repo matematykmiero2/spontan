@@ -10,6 +10,7 @@ import {
   Divider,
   Stack,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import {
   deleteNotification,
   deleteNotifications,
@@ -19,12 +20,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useLocation } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 const Bell = ({ notifications }) => {
+  const { t } = useTranslation();
   const unLogged = checkIfLogged();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => {
-    console.log("close");
+    //console.log("close");
     setIsOpen(false);
   };
 
@@ -55,7 +57,9 @@ const Bell = ({ notifications }) => {
                     setIsOpen(false);
                   }}
                 >
-                  <span>{`Nowe zaproszenie od ${notification.additional_info}`}</span>
+                  <span>{`${t("Invite recived from")} ${
+                    notification.additional_info
+                  }`}</span>
                 </div>
               )}
               {notification.notification_type === "newTask" && (
@@ -70,7 +74,9 @@ const Bell = ({ notifications }) => {
                     setIsOpen(false);
                   }}
                 >
-                  <span>{`Nowe zadanie w: ${notification.additional_info}`}</span>
+                  <span>{`${t("New task in")}: ${
+                    notification.additional_info
+                  }`}</span>
                 </div>
               )}
               {notification.notification_type === "newMessage" && (
@@ -85,7 +91,9 @@ const Bell = ({ notifications }) => {
                     setIsOpen(false);
                   }}
                 >
-                  <span>{`Nowa wiadomość w: ${notification.additional_info}`}</span>
+                  <span>{`${t("New message in")}: ${
+                    notification.additional_info
+                  }`}</span>
                 </div>
               )}
               {notification.notification_type === "newEventInvitation" && (
@@ -96,7 +104,9 @@ const Bell = ({ notifications }) => {
                     setIsOpen(false);
                   }}
                 >
-                  <span>{`Zaproszenie do nowego wydarzenia: ${notification.additional_info}`}</span>
+                  <span>{`${t("Event invite recived from")}: ${
+                    notification.additional_info
+                  }`}</span>
                 </div>
               )}
               {notification.notification_type === "newFriend" && (
@@ -107,7 +117,9 @@ const Bell = ({ notifications }) => {
                     setIsOpen(false);
                   }}
                 >
-                  <span>{`Zaproszenie przyjęte przez: ${notification.additional_info}`}</span>
+                  <span>{`${t("Invite accepted by")}: ${
+                    notification.additional_info
+                  }`}</span>
                 </div>
               )}
             </Typography>
@@ -165,7 +177,8 @@ const Bell = ({ notifications }) => {
         >
           <Typography id="modal-title" variant="h6" component="h2">
             <Stack direction="row">
-              Powiadomienia{" "}
+              {t("Notifications")}
+
               <Box
                 sx={{
                   cursor: "pointer",
@@ -180,7 +193,7 @@ const Bell = ({ notifications }) => {
 
           <List sx={{ width: "100%", height: "90%", overflow: "auto" }}>
             {notifications.length === 0 ? (
-              <Typography variant="body2">Brak powiadomień.</Typography>
+              <Typography variant="body2">{t("No notifications")}</Typography>
             ) : (
               notifications.map((notification) => (
                 <Box key={notification.notification_id}>
