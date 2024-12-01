@@ -89,7 +89,7 @@ const Friends = () => {
     <div className="page" style={{ marginTop: "40px" }}>
       <FixedSizeList
         height={window.innerHeight * 0.9}
-        width={360}
+        width={"90vw"}
         itemSize={80}
         itemCount={invitations.length}
         itemData={{ ...invitations, handleAccept, handleDecline, t }}

@@ -1,4 +1,5 @@
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import LinearProgress from "@mui/material/LinearProgress";
 import React, { useState } from "react";
 import {
   Modal,
@@ -19,10 +20,11 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useLocation } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-const Bell = ({ notifications }) => {
+const Bell = ({ notifications, fetchNotifications }) => {
   const { t } = useTranslation();
   const unLogged = checkIfLogged();
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => {
@@ -129,9 +131,12 @@ const Bell = ({ notifications }) => {
               cursor: "pointer",
               marginLeft: "10px",
             }}
-            onClick={async () =>
-              await deleteNotification(notification.notification_id)
-            }
+            onClick={async () => {
+              setLoading(true);
+              await deleteNotification(notification.notification_id);
+              await fetchNotifications();
+              setLoading(false);
+            }}
           >
             <DeleteIcon />
           </Box>
@@ -178,7 +183,7 @@ const Bell = ({ notifications }) => {
           <Typography id="modal-title" variant="h6" component="h2">
             <Stack direction="row">
               {t("Notifications")}
-
+              <LinearProgress />
               <Box
                 sx={{
                   cursor: "pointer",

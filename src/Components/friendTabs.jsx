@@ -7,7 +7,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { FixedSizeList } from "react-window";
 import { useTranslation } from "react-i18next";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import {
   getUserInvitations,
   getUserFriends,
@@ -49,12 +49,13 @@ function a11yProps(index) {
   };
 }
 
-const BasicTabs = () => {
+const BasicTabs = ({ setShow }) => {
   const { t } = useTranslation();
   const [value, setValue] = React.useState(0);
   const [friends, setFriends] = useState();
   const [invitations, setInvitations] = useState();
   const [userInvitations, setUserInvitations] = useState();
+  const [loading, setLoading] = useState(true);
 
   function renderFriend(props) {
     const { index, style } = props;
@@ -121,6 +122,8 @@ const BasicTabs = () => {
     setFriends(await getUserFriends());
     setInvitations(await getUserInvitations());
     setUserInvitations(await getUserSendInvitations());
+    setLoading(false);
+    setShow(true);
   }
   useEffect(() => {
     init();
@@ -131,83 +134,89 @@ const BasicTabs = () => {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label={t("Friends")} {...a11yProps(0)} />
-          <Tab
-            label={
-              invitations && invitations.length === 0 ? (
-                t("Invitations")
-              ) : (
-                <Stack direction="row" spacing={1}>
-                  {t("Invitations")}
-                  <NotificationsIcon />
-                </Stack>
-              )
-            }
-            {...a11yProps(1)}
-          />
+    <>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Box sx={{ width: "90vw" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label={t("Friends")} {...a11yProps(0)} />
+              <Tab
+                label={
+                  invitations && invitations.length === 0 ? (
+                    t("Invitations")
+                  ) : (
+                    <Stack direction="row" spacing={1}>
+                      {t("Invitations")}
+                      <NotificationsIcon />
+                    </Stack>
+                  )
+                }
+                {...a11yProps(1)}
+              />
 
-          <Tab label={t("Your invitations")} {...a11yProps(2)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        <>
-          <FixedSizeList
-            height={200}
-            width={360}
-            itemSize={46}
-            itemCount={friends && friends.length}
-            overscanCount={5}
-          >
-            {renderFriend}
-          </FixedSizeList>
-        </>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <>
-          {invitations !== undefined && invitations.length > 0 ? (
+              <Tab label={t("Your invitations")} {...a11yProps(2)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
             <>
               <FixedSizeList
                 height={200}
-                width={360}
+                width={"90vw"}
                 itemSize={46}
-                itemCount={invitations.length}
+                itemCount={friends && friends.length}
                 overscanCount={5}
               >
-                {renderInvitation}
+                {renderFriend}
               </FixedSizeList>
             </>
-          ) : (
-            t("No invitations")
-          )}
-        </>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <>
-          {userInvitations !== undefined && userInvitations.length > 0 ? (
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
             <>
-              <FixedSizeList
-                height={200}
-                width={360}
-                itemSize={46}
-                itemCount={userInvitations.length}
-                overscanCount={5}
-              >
-                {renderUserInvitation}
-              </FixedSizeList>
+              {invitations !== undefined && invitations.length > 0 ? (
+                <>
+                  <FixedSizeList
+                    height={200}
+                    width={360}
+                    itemSize={46}
+                    itemCount={invitations.length}
+                    overscanCount={5}
+                  >
+                    {renderInvitation}
+                  </FixedSizeList>
+                </>
+              ) : (
+                t("No invitations")
+              )}
             </>
-          ) : (
-            t("No send invitations")
-          )}
-        </>
-      </CustomTabPanel>
-    </Box>
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={2}>
+            <>
+              {userInvitations !== undefined && userInvitations.length > 0 ? (
+                <>
+                  <FixedSizeList
+                    height={200}
+                    width={360}
+                    itemSize={46}
+                    itemCount={userInvitations.length}
+                    overscanCount={5}
+                  >
+                    {renderUserInvitation}
+                  </FixedSizeList>
+                </>
+              ) : (
+                t("No send invitations")
+              )}
+            </>
+          </CustomTabPanel>
+        </Box>
+      )}
+    </>
   );
 };
 export default BasicTabs;

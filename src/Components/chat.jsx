@@ -40,7 +40,7 @@ const Chat = ({ eventId, name }) => {
         async (payload) => {
           console.log(payload);
 
-          setMessages((prevMessages) => [...prevMessages, payload.new]);
+          await fetchData();
         }
       )
       .subscribe();
@@ -48,6 +48,20 @@ const Chat = ({ eventId, name }) => {
   }, [eventId]);
 
   const handleSendMessage = async () => {
+    if (newMessage.length < 1) return;
+    console.log(messages);
+    const newMes = {
+      message_id: new Date().toISOString(),
+      message_date: new Date().toISOString(),
+      event_id: eventId,
+      sender: id,
+      message: newMessage,
+      new: true,
+    };
+    console.log("newMes", newMes);
+    const actualized = [...messages, newMes];
+    console.log(actualized);
+    setMessages(actualized);
     const resp = await sendMessage(eventId, newMessage);
     if (resp === 200) {
       setNewMessage("");
@@ -71,6 +85,7 @@ const Chat = ({ eventId, name }) => {
                 timestamp={item.message_date ? item.message_date : item.date}
                 sender={item.sender === id ? "Me" : item.sender_nickname}
                 text={item.message}
+                newMessage={item.new}
               />
             ))
           ) : (

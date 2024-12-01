@@ -181,7 +181,7 @@ i18next.use(initReactI18next).init({
         Explore: "Odkrywaj",
         Invitations: "Zaproszenia",
         Home: "Strona główna",
-        Signed: "Podpisano",
+        Signed: "Zapisane",
         Settings: "Ustawienia",
         Decline: "Odrzuć",
         Location: "Lokalizacja",

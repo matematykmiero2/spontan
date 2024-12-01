@@ -145,6 +145,7 @@ const BasicTabs = ({ id, event, refresh }) => {
             eventName={event.name}
             asignees={event?.participants_list}
             isOrganizer={user_id === event?.organizer_id}
+            isMobile={isMobile}
           />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
@@ -152,30 +153,57 @@ const BasicTabs = ({ id, event, refresh }) => {
             className="chat-container"
             style={{ padding: isMobile ? "5px" : "10px" }}
           >
-            <Stack>
-              <TextField
-                label={t("Search Participants")}
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {filteredParticipants && filteredParticipants.length > 0 ? (
-                <FixedSizeList
-                  height={200}
-                  width={360}
-                  itemSize={46}
-                  itemCount={filteredParticipants.length}
-                  itemData={filteredParticipants}
-                  overscanCount={5}
-                >
-                  {renderParticipant}
-                </FixedSizeList>
-              ) : (
-                <p>{t("No participants found")}</p>
-              )}
-            </Stack>
+            {isMobile ? (
+              <Stack>
+                <TextField
+                  label={t("Search Participants")}
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {filteredParticipants && filteredParticipants.length > 0 ? (
+                  <FixedSizeList
+                    height={200}
+                    width={360}
+                    itemSize={46}
+                    itemCount={filteredParticipants.length}
+                    itemData={filteredParticipants}
+                    overscanCount={5}
+                  >
+                    {renderParticipant}
+                  </FixedSizeList>
+                ) : (
+                  <p>{t("No participants found")}</p>
+                )}
+              </Stack>
+            ) : (
+              <Stack>
+                <TextField
+                  label={t("Search Participants")}
+                  variant="outlined"
+                  fullWidth
+                  margin="normal"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {filteredParticipants && filteredParticipants.length > 0 ? (
+                  <FixedSizeList
+                    height={200}
+                    width={"90vw"}
+                    itemSize={46}
+                    itemCount={filteredParticipants.length}
+                    itemData={filteredParticipants}
+                    overscanCount={5}
+                  >
+                    {renderParticipant}
+                  </FixedSizeList>
+                ) : (
+                  <p>{t("No participants found")}</p>
+                )}
+              </Stack>
+            )}
           </div>
         </CustomTabPanel>
       </Box>

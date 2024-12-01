@@ -102,7 +102,7 @@ html {
 .message-list {
   flex: 1;
   overflow-y: auto;
-  max-height: 700px;
+
   padding: 10px;
 }
 

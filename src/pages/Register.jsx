@@ -30,7 +30,11 @@ const Register = () => {
 
   const register = async () => {
     if (!emailError && email && password && name && surname && nickname) {
-      await signUp(email, password, name, surname, nickname);
+      const x = await signUp(email, password, name, surname, nickname);
+      if (x === null) {
+        navigate("/");
+        window.location.reload();
+      }
     } else {
       alert(t("Please fill out all required fields."));
     }

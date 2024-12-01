@@ -50,19 +50,19 @@ function App() {
 
     fetchAndParseEvents();
   }, []);
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      if (
-        logged &&
-        settings &&
-        settings.notifications &&
-        settings.notifications === true
-      ) {
-        const fetchedNotifications = await getNotifications();
-        setNotifications(fetchedNotifications);
-      }
-    };
 
+  const fetchNotifications = async () => {
+    if (
+      logged &&
+      settings &&
+      settings.notifications &&
+      settings.notifications === true
+    ) {
+      const fetchedNotifications = await getNotifications();
+      setNotifications(fetchedNotifications);
+    }
+  };
+  useEffect(() => {
     fetchNotifications();
   }, [logged, settings]);
 
@@ -77,7 +77,10 @@ function App() {
         settings &&
         settings.notifications &&
         settings.notifications === true && (
-          <NotificationBell notifications={notifications} />
+          <NotificationBell
+            notifications={notifications}
+            fetchNotifications={fetchNotifications}
+          />
         )}
       {logged && <NavBar />}
       <Routes>

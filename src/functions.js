@@ -478,7 +478,7 @@ export async function getAllEvents() {
 export function parseDate(events) {
   const lang = localStorage.getItem("lng");
   let local = "en-US";
-  if (lang !== "en") {
+  if (lang && lang !== "en") {
     local = lang;
   }
   events.forEach((event) => {
@@ -584,6 +584,10 @@ export async function signUp(email, password, firstName, lastName, nickname) {
   });
   console.log(data);
   console.log(error);
+  if (error === null) {
+    console.log("account created");
+  }
+  return error;
 }
 
 export async function getInviteLink() {

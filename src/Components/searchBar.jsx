@@ -41,7 +41,9 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
       setCategories(categories);
     }
     fetchCategories();
+  }, []);
 
+  const requestUserLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setUserLocation({
@@ -52,10 +54,11 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
-  }, []);
+  };
 
   const handleOpenModal = () => {
     setModalOpen(true);
+    requestUserLocation();
   };
 
   const handleCloseModal = () => {

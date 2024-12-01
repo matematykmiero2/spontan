@@ -22,6 +22,8 @@ import Button from "@mui/material/Button";
 import { useTranslation } from "react-i18next";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { Stack } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -57,6 +59,7 @@ const BasicTabs = ({
   eventName,
   asignees,
   isOrganizer,
+  isMobile,
 }) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(0);
@@ -66,6 +69,7 @@ const BasicTabs = ({
   const [suggestedTasks, setSuggestedTasks] = useState([]);
   const [taskModal, setTaskModal] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [loading, setloading] = useState(true);
   const [newTask, setNewTask] = useState({
     summary: "",
     description: "",
@@ -78,6 +82,7 @@ const BasicTabs = ({
   };
   useEffect(() => {
     fetchTasks(eventId);
+    setloading(false);
   }, [eventId]);
 
   const handleChange = (event, newValue) => {
@@ -111,10 +116,15 @@ const BasicTabs = ({
 
   const handleSubmit = async () => {
     // console.log("ok");
-    await addTask(eventId, newTask);
+
     setNewTask({ summary: "", description: "" });
     handleCloseModal();
-    fetchTasks(eventId);
+    if (newTask.summary?.length > 0) {
+      setloading(true);
+      await addTask(eventId, newTask);
+      fetchTasks(eventId);
+      setloading(false);
+    }
   };
 
   const handleFieldChange = (e) => {
@@ -139,7 +149,7 @@ const BasicTabs = ({
     setGeneratingTasks(false);
   };
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "90vw" }}>
       <Stack direction="row" spacing={2}>
         <div onClick={handleOpenModal}>
           <AddIcon color="primary" />
@@ -148,6 +158,12 @@ const BasicTabs = ({
           <AutoAwesomeIcon color="primary" />
         </div>
       </Stack>
+      {loading && (
+        <div style={{ width: "100%" }}>
+          <LinearProgress />
+        </div>
+      )}
+
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}

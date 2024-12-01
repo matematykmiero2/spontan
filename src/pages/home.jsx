@@ -8,10 +8,11 @@ import { IconButton } from "@mui/material";
 import TuneIcon from "@mui/icons-material/Tune";
 import { useTranslation } from "react-i18next";
 import SearchBar from "../Components/searchBar";
-
+import CircularProgress from "@mui/material/CircularProgress";
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [userCategories, setUserCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const Home = () => {
       });
 
       setEvents(sortedEvents);
+      setLoading(false);
     }
 
     fetchAndParseEvents();
@@ -69,14 +71,18 @@ const Home = () => {
 
   return (
     <>
-      <div>
-        <SearchBar
-          onSearch={handleSearch}
-          inputRef={inputRef}
-          setEvents={setEvents}
-        />
-        <div className="page">{<EventList events={events} />}</div>
-      </div>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <div>
+          <SearchBar
+            onSearch={handleSearch}
+            inputRef={inputRef}
+            setEvents={setEvents}
+          />
+          <div className="page">{<EventList events={events} />}</div>
+        </div>
+      )}
     </>
   );
 };
