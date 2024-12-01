@@ -52,7 +52,7 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
         });
       });
     } else {
-      console.log("Geolocation is not supported by this browser.");
+      //console.log("Geolocation is not supported by this browser.");
     }
   };
 
@@ -82,7 +82,7 @@ const SearchBar = React.memo(({ onSearch, inputRef, setEvents }) => {
           west: lng - lngOffset * radius,
         };
       } else {
-        console.log("User location is not available.");
+        //console.log("User location is not available.");
       }
     } else {
       bounds = undefined;

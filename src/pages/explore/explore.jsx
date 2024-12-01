@@ -92,7 +92,7 @@ const Map = () => {
         const mapBounds = map.getBounds();
         const northEast = mapBounds.getNorthEast();
         const southWest = mapBounds.getSouthWest();
-        //console.log(zoom);
+        ////console.log(zoom);
 
         const increaseBoundsByHalfKilometer = (northEast, southWest) => {
           const KM_TO_DEGREES_LAT = 1 / 111.32;

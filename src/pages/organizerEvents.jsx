@@ -116,7 +116,7 @@ const Signed = () => {
     }));
   };
   const handleEventChange = (e) => {
-    //console.log(e);
+    ////console.log(e);
     const { name, value, type, checked } = e.target;
     setSelectedEvent((prev) => ({
       ...prev,
@@ -124,7 +124,7 @@ const Signed = () => {
     }));
   };
   const handleLocationChange = (event) => {
-    //console.log(event.target.value);
+    ////console.log(event.target.value);
     setSelectedEvent((prev) => ({
       ...prev,
       location_id: event.target.value,

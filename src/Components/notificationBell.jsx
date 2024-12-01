@@ -28,7 +28,7 @@ const Bell = ({ notifications, fetchNotifications }) => {
   const navigate = useNavigate();
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => {
-    //console.log("close");
+    ////console.log("close");
     setIsOpen(false);
   };
 

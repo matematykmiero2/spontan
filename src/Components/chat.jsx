@@ -38,7 +38,7 @@ const Chat = ({ eventId, name }) => {
           filter: `event_id=eq.${eventId}`,
         },
         async (payload) => {
-          console.log(payload);
+          //console.log(payload);
 
           await fetchData();
         }
@@ -49,7 +49,7 @@ const Chat = ({ eventId, name }) => {
 
   const handleSendMessage = async () => {
     if (newMessage.length < 1) return;
-    console.log(messages);
+    //console.log(messages);
     const newMes = {
       message_id: new Date().toISOString(),
       message_date: new Date().toISOString(),
@@ -58,9 +58,9 @@ const Chat = ({ eventId, name }) => {
       message: newMessage,
       new: true,
     };
-    console.log("newMes", newMes);
+    //console.log("newMes", newMes);
     const actualized = [...messages, newMes];
-    console.log(actualized);
+    //console.log(actualized);
     setMessages(actualized);
     const resp = await sendMessage(eventId, newMessage);
     if (resp === 200) {
@@ -69,7 +69,7 @@ const Chat = ({ eventId, name }) => {
   };
   useEffect(() => {
     if (messageListRef.current) {
-      //console.log("new");
+      ////console.log("new");
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
   }, [messages]);

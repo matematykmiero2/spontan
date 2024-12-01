@@ -83,7 +83,7 @@ const CreateEvent = () => {
   };
 
   const handleLocationChange = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setNewEvent((prev) => ({
       ...prev,
       location_id: event.target.value,

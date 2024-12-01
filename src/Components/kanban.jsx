@@ -115,7 +115,7 @@ const BasicTabs = ({
   };
 
   const handleSubmit = async () => {
-    // console.log("ok");
+    // //console.log("ok");
 
     setNewTask({ summary: "", description: "" });
     handleCloseModal();
@@ -139,7 +139,7 @@ const BasicTabs = ({
     setSuggestedTasks([]);
     setGeneratingTasks(true);
     const tasks = await generateTasks(eventName, eventDescription);
-    // console.log(tasks);
+    // //console.log(tasks);
     if (tasks && tasks.length > 0) {
       setSuggestedTasks(tasks);
     } else {

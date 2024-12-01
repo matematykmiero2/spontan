@@ -43,7 +43,7 @@ const Register = () => {
   };
 
   const handleNickname = async () => {
-    console.log(nickname);
+    //console.log(nickname);
     if (nickname.length > 2) {
       await updateNickname(nickname);
     }
