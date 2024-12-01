@@ -250,7 +250,7 @@ i18next.use(initReactI18next).init({
         "Login failed": "Logowanie nie powiodło się",
         "Email Address": "Adres e-mail",
         Password: "Hasło",
-        "Sign in": "Zaloguj się",
+        "Sign in": "Dołącz",
         "Create account": "Utwórz konto",
         "Select Friends to Invite": "Wybierz znajomych do zaproszenia",
         "Please enter a valid email address":

@@ -48,6 +48,7 @@ const Chat = ({ eventId, name }) => {
   }, [eventId]);
 
   const handleSendMessage = async () => {
+    setNewMessage("");
     if (newMessage.length < 1) return;
     //console.log(messages);
     const newMes = {
@@ -62,10 +63,8 @@ const Chat = ({ eventId, name }) => {
     const actualized = [...messages, newMes];
     //console.log(actualized);
     setMessages(actualized);
+
     const resp = await sendMessage(eventId, newMessage);
-    if (resp === 200) {
-      setNewMessage("");
-    }
   };
   useEffect(() => {
     if (messageListRef.current) {
