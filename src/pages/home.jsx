@@ -74,7 +74,7 @@ const Home = () => {
       {loading ? (
         <CircularProgress />
       ) : (
-        <div>
+        <div style={{ width: "90vw" }}>
           <SearchBar
             onSearch={handleSearch}
             inputRef={inputRef}
